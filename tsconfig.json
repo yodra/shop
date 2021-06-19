@@ -1,11 +1,11 @@
 {
   "compilerOptions": {
-    "target": "es6",
-    "module": "ES6",
+    "target": "ES2017",
+    "module": "commonjs",
     "moduleResolution": "node",
     "declaration": true,
     "strict": true,
-    "noImplicitAny": true,
+    "noImplicitAny": false,
     "strictNullChecks": true,
     "strictFunctionTypes": true,
     "noUnusedLocals": true,
@@ -17,14 +17,20 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "sourceMap": true,
+    "forceConsistentCasingInFileNames": true,
     "outDir": "./dist/",
+    "typeRoots": [
+      "./node_modules/@types"
+    ],
     "types": [
       "node",
-      "jest"
+      "jest",
+      "reflect-metadata"
     ],
     "lib": [
-      "ES6"
+      "ES2017"
     ]
   },
   "include": [

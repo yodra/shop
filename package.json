@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "backend to management shop",
   "main": "dist/server.js",
-  "type": "module",
   "scripts": {
     "build": "tsc",
     "start": "node dist/server.js",
@@ -13,12 +12,24 @@
   "keywords": [],
   "license": "ISC",
   "dependencies": {
-    "express": "4.17.1"
+    "express": "4.17.1",
+    "inversify": "5.1.1",
+    "inversify-express-utils": "6.3.2",
+    "reflect-metadata": "0.1.13"
   },
   "devDependencies": {
-    "@types/express": "^4.17.12",
-    "@types/node": "^15.12.4",
-    "typescript": "4.3.4",
-    "jest": "^27.0.4"
+    "@types/express": "4.17.12",
+    "@types/node": "15.12.4",
+    "jest": "27.0.4",
+    "tslib": "2.3.0",
+    "typescript": "4.2.4"
+  },
+  "jest": {
+    "preset": "ts-jest"
+  },
+  "engineStrict": true,
+  "engines": {
+    "node": "=14.16.1",
+    "npm": "=6.14.12"
   }
 }
