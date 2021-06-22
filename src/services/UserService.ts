@@ -1,7 +1,7 @@
-import { inject, injectable } from "inversify";
-import { TYPES } from "../constants/types";
-import { UserRepository } from "../repositories/UserRepository";
-import { User } from "../models/User";
+import { inject, injectable } from 'inversify';
+import { TYPES } from '../constants/types';
+import { UserRepository } from '../repositories/UserRepository';
+import { User } from '../models/User';
 
 @injectable()
 export class UserService {

@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import './controllers/UserController';
-import { server } from "./server/express";
+import { server } from './server/express';
 
 const app = server.build();
 app.listen(3000, () => {
