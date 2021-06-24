@@ -28,6 +28,11 @@ make start
 make up
 ```
 
+- To execute the integration services:
+```shell
+make up_services
+```
+
 - To run the test:
 ```shell
 make test

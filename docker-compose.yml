@@ -11,8 +11,8 @@ services:
 
   database:
     image: mongo:4.4.6
-    expose:
-      - 27017
+    ports:
+      - 27017:27017
     volumes:
       - mongodata:/data/db
 

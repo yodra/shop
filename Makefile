@@ -10,6 +10,10 @@ up:
 	@echo "🏃‍♀️ Running the project on docker"
 	@docker-compose up -d --build
 
+up_services:
+	@echo "🏃‍♀️ Running services"
+	@docker-compose up -d database
+
 down:
 	@echo "🛑️ Stopping the project and removing containers"
 	@docker-compose down
