@@ -16,12 +16,13 @@ It is necessary to install the following versions to work it the project:
 Run `make init` if you need to configure the project for the first time.
 
 ## 🏃‍♀️ Running
-- To transpile the project: 
+
+- To execute the project on local environment:
 ```shell
-make build
+make start
 ```
 
-- To execute the project:
+- To execute the project on docker:
 ```shell
 make up
 ```

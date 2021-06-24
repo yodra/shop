@@ -2,13 +2,9 @@ init:
 	@echo "Initialising the project"
 	@npm install
 
-build:
-	@echo "️👷‍♀️ Building the project"
-	@npm run build
-
-start: build
+start:
 	@echo "🏃‍♀️ Running the project"
-	@npm run start
+	@npm run dev
 
 up:
 	@echo "🏃‍♀️ Running the project on docker"

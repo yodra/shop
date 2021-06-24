@@ -6,6 +6,8 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/app.js",
+    "dev": "nodemon --config nodemon.json src/app.ts",
+    "dev-debug": "nodemon --config nodemon.json --inspect-brk src/app.ts",
     "test": "jest",
     "test-watch": "jest --watch",
     "lint": "eslint --max-warnings 0 . --ext .ts"
@@ -25,12 +27,14 @@
     "@types/jest": "26.0.23",
     "@types/node": "15.12.4",
     "@types/supertest": "2.0.11",
-    "@typescript-eslint/eslint-plugin": "^4.27.0",
-    "@typescript-eslint/parser": "^4.27.0",
-    "eslint": "^7.29.0",
+    "@typescript-eslint/eslint-plugin": "4.27.0",
+    "@typescript-eslint/parser": "4.27.0",
+    "eslint": "7.29.0",
     "jest": "27.0.4",
+    "nodemon": "2.0.7",
     "supertest": "6.1.3",
     "ts-jest": "27.0.3",
+    "ts-node": "10.0.0",
     "typescript": "4.2.4"
   },
   "jest": {
