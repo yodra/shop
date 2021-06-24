@@ -1,12 +1,13 @@
 import 'reflect-metadata';
 import './controllers/UserController';
 import { server } from './server/express';
-import { config } from 'dotenv';
+import dotenv from 'dotenv';
+import { Config } from './Config';
 
-config();
 
 const app = server.build();
-const port = Number(process.env.PORT);
-app.listen(port, () => {
-  console.log(`Running on port ${port}!`);
+
+dotenv.config();
+app.listen(Config.port, () => {
+  console.log(`Running on port ${Config.port}!`);
 });

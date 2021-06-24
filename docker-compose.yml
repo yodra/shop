@@ -4,13 +4,17 @@ services:
     build: .
     ports:
       - 3000:3000
+    environment:
+      - PORT=3000
     depends_on:
       - database
+
   database:
     image: mongo:4.4.6
     expose:
       - 27017
     volumes:
       - mongodata:/data/db
+
 volumes:
   mongodata:
