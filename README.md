@@ -14,6 +14,7 @@ It is necessary to install the following versions to work it the project:
 
 ### 🔧 Installation
 Run `make init` if you need to configure the project for the first time.
+Copy the `.env.sample` to `.env` file and change the values of environment variables that you need in local.
 
 ## 🏃‍♀️ Running
 
