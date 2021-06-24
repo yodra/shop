@@ -6,9 +6,13 @@ build:
 	@echo "️👷‍♀️ Building the project"
 	@npm run build
 
-up: build
+start: build
 	@echo "🏃‍♀️ Running the project"
 	@npm run start
+
+up:
+	@echo "🏃‍♀️ Running the project on docker"
+	@docker run -p 3000:3000 shop
 
 test:
 	@echo "🧪 Running test"
