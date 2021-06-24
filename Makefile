@@ -8,7 +8,11 @@ start:
 
 up:
 	@echo "🏃‍♀️ Running the project on docker"
-	@docker run -p 3000:3000 shop
+	@docker-compose up -d --build
+
+down:
+	@echo "🛑️ Stopping the project and removing containers"
+	@docker-compose down
 
 test:
 	@echo "🧪 Running test"
