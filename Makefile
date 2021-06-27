@@ -29,3 +29,19 @@ clean:
 clean_all: clean
 	@echo "🧨 Cleaning all"
 	@rm -rf node_modules package-lock.json
+
+migrate_create:
+	@echo "🗄️ Creating migration"
+	@./node_modules/.bin/migrate-mongo create $(migration)
+
+migrate_up:
+	@echo "📂 Running migrations"
+	@./node_modules/.bin/migrate-mongo up
+
+migrate_down:
+	@echo "↩️️ Rollback the last migration"
+	@./node_modules/.bin/migrate-mongo down
+
+migrate_status:
+	@echo "👀 Status migrations"
+	@./node_modules/.bin/migrate-mongo status
