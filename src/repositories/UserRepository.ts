@@ -1,13 +1,15 @@
 import { injectable } from 'inversify';
 import { User } from '../models/User';
+import { BaseRepository } from './BaseRepository';
 
 @injectable()
-export class UserRepository {
+export class UserRepository extends BaseRepository<User> {
+
+  constructor() {
+    super('users');
+  }
+
   findAll(): Promise<User[]> {
-    return Promise.resolve([{
-      id: '1234',
-      name: 'name',
-      surname: 'surname'
-    }]);
+    return this.find({});
   }
 }
