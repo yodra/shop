@@ -1,7 +1,7 @@
 import request from 'supertest';
-import { getServer } from '../../../config/jest/after';
-import { Container } from 'inversify';
 import { TYPES } from '../../constants/types';
+import { getTestServer } from '../../../config/jest/after';
+import { initializeContainer } from '../../configurations/ioc';
 
 let server;
 
@@ -11,9 +11,10 @@ const userServiceMock = {
 
 describe('UserController', () => {
   beforeAll(async () => {
-    const container = new Container();
+    const container = initializeContainer();
+    container.unbind(TYPES.UserService);
     container.bind(TYPES.UserService).toConstantValue(userServiceMock);
-    server = await getServer(container);
+    server = await getTestServer(container);
   });
 
   describe('getUsers', () => {

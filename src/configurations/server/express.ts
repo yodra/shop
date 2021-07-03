@@ -1,9 +1,10 @@
 import 'reflect-metadata';
 import * as bodyParser from 'body-parser';
 import { InversifyExpressServer } from 'inversify-express-utils';
-import '../../controllers/UserController';
 import { Container } from 'inversify';
 import { Config } from '../Config';
+import '../../controllers/UserController';
+import '../../controllers/CustomerController';
 
 export const configureServer = (container: Container) => {
   const server = new InversifyExpressServer(container);
