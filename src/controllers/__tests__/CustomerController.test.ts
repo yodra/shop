@@ -2,14 +2,21 @@ import { initializeContainer } from '../../configurations/ioc';
 import { getTestServer } from '../../../config/jest/after';
 import request from 'supertest';
 
+let server;
+
 describe('CustomerController', () => {
+  beforeAll(async () => {
+    const container = initializeContainer();
+    server = await getTestServer(container);
+  });
+
   describe('getCustomers', () => {
     it('should to get status response 200', async () => {
-      const container = initializeContainer();
-      const server = await getTestServer(container);
+      const expectedBody = [];
       await request(server)
         .get('/customer')
-        .expect(200);
+        .expect(200)
+        .expect(expectedBody);
     });
   });
 });
