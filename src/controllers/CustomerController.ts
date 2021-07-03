@@ -2,6 +2,7 @@ import { controller, httpGet, interfaces } from 'inversify-express-utils';
 import { inject } from 'inversify';
 import { TYPES } from '../constants/types';
 import { CustomerService } from '../services/CustomerService';
+import { Customer } from '../models/Customer';
 
 @controller('/customer')
 export class CustomerController implements interfaces.Controller {
@@ -10,7 +11,7 @@ export class CustomerController implements interfaces.Controller {
   }
 
   @httpGet('/')
-  async getCustomers(): Promise<any> {
+  async getCustomers(): Promise<Customer[]> {
     return this.customerService.getCustomers();
   }
 }
