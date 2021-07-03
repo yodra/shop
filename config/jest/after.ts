@@ -1,9 +1,7 @@
 import { configureServer } from '../../src/configurations/server/express';
-import { initializeContainer } from '../../src/configurations/ioc';
+import { Container } from 'inversify';
 
-export const getServer = async () => {
-  const container = initializeContainer();
-  //TODO inject mock repository
+export const getServer = async (container: Container) => {
   const server = configureServer(container);
   return server.build();
 };
