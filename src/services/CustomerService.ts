@@ -1,13 +1,7 @@
 import { inject, injectable } from 'inversify';
 import { Customer } from '../models/Customer';
 import { TYPES } from '../constants/types';
-
-@injectable()
-export class CustomerRepository {
-  findAll() {
-    return [];
-  }
-}
+import { CustomerRepository } from '../repositories/CustomerRepository';
 
 @injectable()
 export class CustomerService {

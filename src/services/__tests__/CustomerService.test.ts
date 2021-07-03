@@ -1,4 +1,6 @@
 import { CustomerService } from '../CustomerService';
+import { initializeContainer } from '../../configurations/ioc';
+import { TYPES } from '../../constants/types';
 
 const customerRepositoryMock = {
   findAll: jest.fn()
@@ -12,7 +14,10 @@ describe('CustomerService', () => {
       lastName: 'aLastName',
       image: 'aUrlImage'
     }]);
-    const customerService = new CustomerService(customerRepositoryMock);
+    const container = initializeContainer();
+    container.unbind(TYPES.CustomerRepository);
+    container.bind(TYPES.CustomerRepository).toConstantValue(customerRepositoryMock);
+    const customerService = container.get<CustomerService>(TYPES.CustomerService);
 
     expect(await customerService.getCustomers()).toEqual([{
       id: 'aId',

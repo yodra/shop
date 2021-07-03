@@ -2,7 +2,8 @@ import { Container } from 'inversify';
 import { UserService } from '../services/UserService';
 import { TYPES } from '../constants/types';
 import { UserRepository } from '../repositories/UserRepository';
-import { CustomerRepository, CustomerService } from '../services/CustomerService';
+import { CustomerService } from '../services/CustomerService';
+import { CustomerRepository } from '../repositories/CustomerRepository';
 
 export const initializeContainer = (): Container => {
   const container = new Container();
