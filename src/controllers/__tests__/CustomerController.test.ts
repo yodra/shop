@@ -24,4 +24,11 @@ describe('CustomerController', () => {
         .expect(200);
     });
   });
+
+  describe('createCustomer', () => {
+    it.todo('should create a new customer');
+    it.todo('should returns an exception when the customer already exist');
+    it.todo('should returns an exception when the customer name is not provided');
+    it.todo('should returns an exception when the customer lastname is not provided');
+  });
 });
