@@ -26,9 +26,30 @@ describe('CustomerController', () => {
   });
 
   describe('createCustomer', () => {
-    it.todo('should create a new customer');
+    const baseCustomer = { name: 'Ana', lastname: 'Morales' };
+
+    it('should create a new customer', async () => {
+      await request(server)
+        .post('/customer')
+        .send(baseCustomer)
+        .expect(204);
+    });
+
+    // TODO move to service
     it.todo('should returns an exception when the customer already exist');
-    it.todo('should returns an exception when the customer name is not provided');
-    it.todo('should returns an exception when the customer lastname is not provided');
+
+    it('should returns an exception when the customer name is not provided', async () => {
+      await request(server)
+        .post('/customer')
+        .send({ ...baseCustomer, name: undefined })
+        .expect(400);
+    });
+
+    it('should returns an exception when the customer lastname is not provided', async () => {
+      await request(server)
+        .post('/customer')
+        .send({ ...baseCustomer, lastname: undefined })
+        .expect(400);
+    });
   });
 });

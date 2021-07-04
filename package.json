@@ -50,6 +50,9 @@
     "watchPlugins": [
       "jest-watch-typeahead/filename",
       "jest-watch-typeahead/testname"
+    ],
+    "testPathIgnorePatterns": [
+      "dist"
     ]
   },
   "engineStrict": true,
