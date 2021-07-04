@@ -8,19 +8,25 @@ const customerRepositoryMock: Partial<CustomerRepository> = {
 describe('CustomerService', () => {
   const customerService = new CustomerService(customerRepositoryMock as any);
 
-  it('should return a Customer list', async function () {
-    customerRepositoryMock.findAll = () => Promise.resolve([{
-      id: 'aId',
-      name: 'aName',
-      lastname: 'aLastname',
-      image: 'aUrlImage'
-    }]);
+  describe('getCustomers', () => {
+    it('should return a Customer list', async function () {
+      customerRepositoryMock.findAll = () => Promise.resolve([{
+        id: 'aId',
+        name: 'aName',
+        lastname: 'aLastname',
+        image: 'aUrlImage'
+      }]);
 
-    expect(await customerService.getCustomers()).toEqual([{
-      id: 'aId',
-      name: 'aName',
-      lastname: 'aLastname',
-      image: 'aUrlImage'
-    }]);
+      expect(await customerService.getCustomers()).toEqual([{
+        id: 'aId',
+        name: 'aName',
+        lastname: 'aLastname',
+        image: 'aUrlImage'
+      }]);
+    });
+  });
+
+  describe('createCustomer', () => {
+    it.todo('should returns an exception when the customer already exist');
   });
 });

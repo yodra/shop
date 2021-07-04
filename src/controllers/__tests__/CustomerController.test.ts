@@ -4,7 +4,8 @@ import { TYPES } from '../../constants/types';
 
 let server;
 const customerServiceMock = {
-  getCustomers: jest.fn()
+  getCustomers: jest.fn(),
+  createCustomer: jest.fn()
 };
 
 describe('CustomerController', () => {
@@ -35,9 +36,6 @@ describe('CustomerController', () => {
         .expect(204);
     });
 
-    // TODO move to service
-    it.todo('should returns an exception when the customer already exist');
-
     it('should returns an exception when the customer name is not provided', async () => {
       await request(server)
         .post('/customer')
@@ -50,6 +48,14 @@ describe('CustomerController', () => {
         .post('/customer')
         .send({ ...baseCustomer, lastname: undefined })
         .expect(400);
+    });
+
+    it('should call to createCustomer on CustomerService', async () => {
+      await request(server)
+        .post('/customer')
+        .send({ ...baseCustomer });
+
+      expect(customerServiceMock.createCustomer).toBeCalled();
     });
   });
 });
