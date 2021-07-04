@@ -5,14 +5,16 @@ import { Container } from 'inversify';
 import { Config } from '../Config';
 import '../../controllers/UserController';
 import '../../controllers/CustomerController';
-import { ControllerClientException } from '../../controllers/exceptions/ControllerClientException';
+import { ClientException } from '../../exceptions/ClientException';
 
 const errorHandler = (error: Error, _, response, next) => {
   if (error) {
-    if (error instanceof ControllerClientException) {
-      response.status(400).json({ error: error.message });
+    if (error instanceof ClientException) {
+      response.status(error.httpCode).json({ error: error.message });
+      return;
     }
-    return response.status(500).json('Something was broke!');
+    response.status(500).json('Something was broke!');
+    return;
   }
   next();
 };

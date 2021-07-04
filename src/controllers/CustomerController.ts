@@ -20,6 +20,10 @@ export class CustomerController implements interfaces.Controller {
   async createCustomer(@requestBody() body: any) {
     assertBody(body, 'name', 'The name of customer is mandatory');
     assertBody(body, 'lastname', 'The lastname of customer is mandatory');
-    await this.customerService.createCustomer({} as any);
+
+    await this.customerService.createCustomer({
+      name: body.name,
+      lastname: body.lastname
+    });
   }
 }

@@ -55,7 +55,7 @@ describe('CustomerController', () => {
         .post('/customer')
         .send({ ...baseCustomer });
 
-      expect(customerServiceMock.createCustomer).toBeCalled();
+      expect(customerServiceMock.createCustomer).toBeCalledWith(baseCustomer);
     });
   });
 });

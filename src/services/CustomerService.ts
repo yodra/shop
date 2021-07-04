@@ -2,6 +2,7 @@ import { inject, injectable } from 'inversify';
 import { Customer } from '../models/Customer';
 import { TYPES } from '../constants/types';
 import { CustomerRepository } from '../repositories/CustomerRepository';
+import { ServiceException } from './exceptions/ServiceException';
 
 interface CreateCustomerRequest {
   name: string;
@@ -19,11 +20,18 @@ export class CustomerService {
   }
 
   async createCustomer(request: CreateCustomerRequest) {
-    const existingCustomer = await this.customerRepository.findOne({ name: request, lastname: request.lastname });
+    const existingCustomer = await this.customerRepository.findOne({
+      name: request.name,
+      lastname: request.lastname
+    });
+
     if (existingCustomer) {
-      throw new Error('The customer already exists');
+      throw new ServiceException('The customer already exists');
     }
 
-    this.customerRepository.insert();
+    await this.customerRepository.insert({
+      name: request.name,
+      lastname: request.lastname
+    });
   }
 }

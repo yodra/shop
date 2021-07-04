@@ -13,7 +13,7 @@ export class CustomerRepository extends BaseRepository<Customer> {
     return this.find({});
   }
 
-  insert() {
-    
+  insert(customer: Partial<Customer>) {
+    return this.insertOne(customer);
   }
 }

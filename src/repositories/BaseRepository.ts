@@ -16,11 +16,16 @@ export class BaseRepository<T> {
     return this.db!.collection(this.collectionName);
   }
 
-  public find(filter: Object): Promise<T[]> {
+  find(filter: Object): Promise<T[]> {
     return this.getCollection().find(filter).toArray();
   }
 
-  public findOne(filter: Object): Promise<T> {
+  findOne(filter: Object): Promise<T> {
     return this.getCollection().findOne(filter);
+  }
+
+  async insertOne(document: Partial<T>) {
+    const result = await this.getCollection().insertOne(document);
+    return result.ops[0];
   }
 }

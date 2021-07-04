@@ -1,6 +1,6 @@
 import { ClientException } from '../../exceptions/ClientException';
 
-export class ControllerClientException extends ClientException {
+export class ServiceException extends ClientException {
 
   constructor(message: string) {
     super(message);
