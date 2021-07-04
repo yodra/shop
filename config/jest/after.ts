@@ -5,10 +5,7 @@ import { UserRepository } from '../../src/repositories/UserRepository';
 import { TYPES } from '../../src/constants/types';
 import { CustomerRepository } from '../../src/repositories/CustomerRepository';
 
-export const getTestServer = async (container: Container) => {
-  const server = configureServer(container);
-  return server.build();
-};
+export const getTestServer = async (container: Container) => configureServer(container).build();
 
 export const initializeTestContainer = (): Container => {
   const container = new Container();
