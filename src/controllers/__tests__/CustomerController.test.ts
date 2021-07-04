@@ -1,5 +1,4 @@
-import { initializeContainer } from '../../configurations/ioc';
-import { getTestServer } from '../../../config/jest/after';
+import { getTestServer, initializeTestContainer } from '../../../config/jest/after';
 import request from 'supertest';
 import { TYPES } from '../../constants/types';
 
@@ -10,7 +9,7 @@ const customerServiceMock = {
 
 describe('CustomerController', () => {
   beforeAll(async () => {
-    const container = initializeContainer();
+    const container = initializeTestContainer();
     container.unbind(TYPES.CustomerService);
     container.bind(TYPES.CustomerService).toConstantValue(customerServiceMock);
     server = await getTestServer(container);

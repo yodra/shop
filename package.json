@@ -8,7 +8,7 @@
     "start": "node dist/app.js",
     "dev": "nodemon --config nodemon.json src/app.ts",
     "dev-debug": "nodemon --config nodemon.json --inspect-brk src/app.ts",
-    "test": "jest --forceExit --detectOpenHandles",
+    "test": "jest",
     "test-watch": "npm run test -- --watch",
     "lint": "eslint --max-warnings 0 . --ext .ts"
   },
