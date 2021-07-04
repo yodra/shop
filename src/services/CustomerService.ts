@@ -34,4 +34,8 @@ export class CustomerService {
       lastname: request.lastname
     });
   }
+
+  async removeCustomer(id: string) {
+    await this.customerRepository.delete(id);
+  }
 }

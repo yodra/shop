@@ -16,4 +16,8 @@ export class CustomerRepository extends BaseRepository<Customer> {
   insert(customer: Partial<Customer>) {
     return this.insertOne(customer);
   }
+
+  async delete(id) {
+    await this.deleteOne(id);
+  }
 }
