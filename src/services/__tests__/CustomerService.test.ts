@@ -1,28 +1,25 @@
 import { CustomerService } from '../CustomerService';
-import { initializeContainer } from '../../configurations/ioc';
-import { TYPES } from '../../constants/types';
+import { CustomerRepository } from '../../repositories/CustomerRepository';
 
-const customerRepositoryMock = {
-  findAll: jest.fn()
+const customerRepositoryMock: Partial<CustomerRepository> = {
+  findAll: () => Promise.resolve([])
 };
 
 describe('CustomerService', () => {
+  const customerService = new CustomerService(customerRepositoryMock as any);
+
   it('should return a Customer list', async function () {
-    customerRepositoryMock.findAll.mockReturnValue([{
+    customerRepositoryMock.findAll = () => Promise.resolve([{
       id: 'aId',
       name: 'aName',
-      lastName: 'aLastName',
+      lastname: 'aLastname',
       image: 'aUrlImage'
     }]);
-    const container = initializeContainer();
-    container.unbind(TYPES.CustomerRepository);
-    container.bind(TYPES.CustomerRepository).toConstantValue(customerRepositoryMock);
-    const customerService = container.get<CustomerService>(TYPES.CustomerService);
 
     expect(await customerService.getCustomers()).toEqual([{
       id: 'aId',
       name: 'aName',
-      lastName: 'aLastName',
+      lastname: 'aLastname',
       image: 'aUrlImage'
     }]);
   });

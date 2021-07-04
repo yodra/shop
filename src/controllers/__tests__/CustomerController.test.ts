@@ -1,7 +1,6 @@
 import { initializeContainer } from '../../configurations/ioc';
 import { getTestServer } from '../../../config/jest/after';
 import request from 'supertest';
-import { Customer } from '../../models/Customer';
 import { TYPES } from '../../constants/types';
 
 let server;
@@ -19,23 +18,11 @@ describe('CustomerController', () => {
 
   describe('getCustomers', () => {
     it('should to get status response 200', async () => {
-      customerServiceMock.getCustomers.mockReturnValue([{
-        id: 'anId',
-        name: 'aName',
-        lastname: 'aLastname',
-        image: 'aUrlImage'
-      }]);
+      customerServiceMock.getCustomers.mockReturnValue([]);
 
-      const expectedBody: Customer[] = [{
-        id: 'anId',
-        name: 'aName',
-        lastname: 'aLastname',
-        image: 'aUrlImage'
-      }];
       await request(server)
         .get('/customer')
-        .expect(200)
-        .expect(expectedBody);
+        .expect(200);
     });
   });
 });
