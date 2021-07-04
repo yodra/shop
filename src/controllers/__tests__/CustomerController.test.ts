@@ -22,14 +22,14 @@ describe('CustomerController', () => {
       customerServiceMock.getCustomers.mockReturnValue([{
         id: 'anId',
         name: 'aName',
-        lastName: 'aLastName',
+        lastname: 'aLastname',
         image: 'aUrlImage'
       }]);
 
       const expectedBody: Customer[] = [{
         id: 'anId',
         name: 'aName',
-        lastName: 'aLastName',
+        lastname: 'aLastname',
         image: 'aUrlImage'
       }];
       await request(server)
