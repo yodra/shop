@@ -12,4 +12,8 @@ export class CustomerRepository extends BaseRepository<Customer> {
   findAll(): Promise<Customer[]> {
     return this.find({});
   }
+
+  insert() {
+    
+  }
 }

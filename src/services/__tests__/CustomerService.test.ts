@@ -2,7 +2,8 @@ import { CustomerService } from '../CustomerService';
 import { CustomerRepository } from '../../repositories/CustomerRepository';
 
 const customerRepositoryMock: Partial<CustomerRepository> = {
-  findAll: () => Promise.resolve([])
+  findAll: () => Promise.resolve([]),
+  insert: jest.fn()
 };
 
 describe('CustomerService', () => {
@@ -27,6 +28,22 @@ describe('CustomerService', () => {
   });
 
   describe('createCustomer', () => {
-    it.todo('should returns an exception when the customer already exist');
+    beforeEach(() => {
+      customerRepositoryMock.findOne = jest.fn();
+    });
+
+    it('should returns an exception when the customer already exist', async () => {
+      customerRepositoryMock.findOne = jest.fn().mockReturnValue({});
+
+      await expect(customerService.createCustomer({ name: 'Ana', lastname: 'Morales' }))
+        .rejects
+        .toThrowError('The customer already exists');
+    });
+
+    it('should call to insert on CustomerRepository', async () => {
+      await customerService.createCustomer({ name: 'Ana', lastname: 'Morales' });
+
+      expect(customerRepositoryMock.insert).toBeCalled();
+    });
   });
 });

@@ -19,4 +19,8 @@ export class BaseRepository<T> {
   public find(filter: Object): Promise<T[]> {
     return this.getCollection().find(filter).toArray();
   }
+
+  public findOne(filter: Object): Promise<T> {
+    return this.getCollection().findOne(filter);
+  }
 }
