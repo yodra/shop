@@ -17,18 +17,19 @@ export class BaseRepository<T> {
   }
 
   find(filter: Object): Promise<T[]> {
-    // TODO: filter by not deletedAt
-    return this.getCollection().find(filter).toArray();
+    return this.getCollection().find({ ...filter, deletedAt: { $exists: false } }).toArray();
   }
 
   findOne(filter: Object): Promise<T> {
-    // TODO: filter by not deletedAt
-    return this.getCollection().findOne(filter);
+    return this.getCollection().findOne({ ...filter, deletedAt: { $exists: false } });
   }
 
   async insertOne(document: Partial<T>) {
-    // TODO: add createdAt, updatedAt
-    const result = await this.getCollection().insertOne(document);
+    const result = await this.getCollection().insertOne({
+      ...document,
+      createAt: new Date(),
+      updatedAt: new Date()
+    });
     return result.ops[0];
   }
 
