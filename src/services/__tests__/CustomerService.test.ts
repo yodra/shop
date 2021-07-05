@@ -3,7 +3,8 @@ import { CustomerRepository } from '../../repositories/CustomerRepository';
 
 const customerRepositoryMock: Partial<CustomerRepository> = {
   findAll: () => Promise.resolve([]),
-  insert: jest.fn()
+  insert: jest.fn(),
+  delete: jest.fn()
 };
 
 describe('CustomerService', () => {
@@ -44,6 +45,14 @@ describe('CustomerService', () => {
       await customerService.createCustomer({ name: 'Ana', lastname: 'Morales' });
 
       expect(customerRepositoryMock.insert).toBeCalled();
+    });
+  });
+
+  describe('removeCustomer', () => {
+    it('should call to delete on CustomerRepository', async function () {
+      await customerService.removeCustomer('irrelevant');
+
+      expect(customerRepositoryMock.delete).toBeCalled();
     });
   });
 });

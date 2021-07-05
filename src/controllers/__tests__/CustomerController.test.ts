@@ -1,11 +1,13 @@
 import { getTestServer, initializeTestContainer } from '../../../config/jest/after';
 import request from 'supertest';
 import { TYPES } from '../../constants/types';
+import { CustomerService } from '../../services/CustomerService';
 
 let server;
-const customerServiceMock = {
+const customerServiceMock: Partial<CustomerService> = {
   getCustomers: jest.fn(),
-  createCustomer: jest.fn()
+  createCustomer: jest.fn(),
+  removeCustomer: jest.fn()
 };
 
 describe('CustomerController', () => {
@@ -18,7 +20,7 @@ describe('CustomerController', () => {
 
   describe('getCustomers', () => {
     it('should to get status response 200', async () => {
-      customerServiceMock.getCustomers.mockReturnValue([]);
+      customerServiceMock.getCustomers = jest.fn().mockReturnValue([]);
 
       await request(server)
         .get('/customer')
@@ -57,5 +59,15 @@ describe('CustomerController', () => {
 
       expect(customerServiceMock.createCustomer).toBeCalledWith(baseCustomer);
     });
+  });
+
+  describe('removeCustomer', () => {
+    it('should to get status response 204', async () => {
+      await request(server)
+        .delete('/customer/1')
+        .expect(204);
+    });
+
+    it.todo('should return an exception when the id is not a ObjectId');
   });
 });
