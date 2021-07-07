@@ -7,7 +7,8 @@ let server;
 const customerServiceMock: Partial<CustomerService> = {
   getCustomers: jest.fn(),
   createCustomer: jest.fn(),
-  removeCustomer: jest.fn()
+  removeCustomer: jest.fn(),
+  updateCustomer: jest.fn()
 };
 
 describe('CustomerController', () => {
@@ -69,5 +70,39 @@ describe('CustomerController', () => {
     });
 
     it.todo('should return an exception when the id is not a ObjectId');
+  });
+
+  describe('updateCustomer', () => {
+    const baseCustomer = { name: 'Ana', lastname: 'Morales' };
+    it('should to get status response 204', async () => {
+      await request(server)
+        .put('/customer/1')
+        .send(baseCustomer)
+        .expect(204);
+    });
+
+    it.todo('should return an exception when the id is not a ObjectId');
+
+    it('should return an exception when the customer name is not provided', async () => {
+      await request(server)
+        .put('/customer/1')
+        .send({ ...baseCustomer, name: undefined })
+        .expect(400);
+    });
+
+    it('should return an exception when the customer lastname is not provided', async () => {
+      await request(server)
+        .put('/customer/1')
+        .send({ ...baseCustomer, lastname: undefined })
+        .expect(400);
+    });
+
+    it('should call to updateCustomer on CustomerService', async () => {
+      await request(server)
+        .put('/customer/1')
+        .send(baseCustomer);
+
+      expect(customerServiceMock.updateCustomer).toBeCalledWith('1', baseCustomer);
+    });
   });
 });

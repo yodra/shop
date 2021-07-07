@@ -3,6 +3,7 @@ import {
   httpDelete,
   httpGet,
   httpPost,
+  httpPut,
   interfaces,
   requestBody,
   requestParam
@@ -11,7 +12,8 @@ import { inject } from 'inversify';
 import { TYPES } from '../constants/types';
 import { CustomerService } from '../services/CustomerService';
 import { Customer } from '../models/Customer';
-import { assertBody } from './utils/assertions';
+import { assertBodyHasSeveralFields } from './utils/assertions';
+import { UpdateCustomerRequest } from '../requests/UpdateCustomerRequest';
 
 @controller('/customer')
 export class CustomerController implements interfaces.Controller {
@@ -26,8 +28,7 @@ export class CustomerController implements interfaces.Controller {
 
   @httpPost('/')
   async createCustomer(@requestBody() body: any) {
-    assertBody(body, 'name', 'The name of customer is mandatory');
-    assertBody(body, 'lastname', 'The lastname of customer is mandatory');
+    assertBodyHasSeveralFields(body, ['name', 'lastname']);
 
     // TODO: Extract from session the userId
     await this.customerService.createCustomer({
@@ -42,5 +43,13 @@ export class CustomerController implements interfaces.Controller {
     await this.customerService.removeCustomer(id);
   }
 
-  // TODO: UpdateCustomer
+  @httpPut('/:id')
+  async updateCustomer(@requestParam('id') id: string, @requestBody() body: any) {
+    assertBodyHasSeveralFields(body, ['name', 'lastname']);
+    // TODO: assertObjectId(id)
+
+    const request = UpdateCustomerRequest.build(body);
+    await this.customerService.updateCustomer(id, request);
+  }
 }
+

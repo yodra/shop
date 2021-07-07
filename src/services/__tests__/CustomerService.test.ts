@@ -4,7 +4,8 @@ import { CustomerRepository } from '../../repositories/CustomerRepository';
 const customerRepositoryMock: Partial<CustomerRepository> = {
   findAll: () => Promise.resolve([]),
   insert: jest.fn(),
-  delete: jest.fn()
+  delete: jest.fn(),
+  update: jest.fn()
 };
 
 describe('CustomerService', () => {
@@ -55,4 +56,28 @@ describe('CustomerService', () => {
       expect(customerRepositoryMock.delete).toBeCalled();
     });
   });
+
+  describe('updateCustomer', () => {
+    const baseCustomer = { name: 'Ana', lastname: 'Morales' };
+
+    beforeEach(() => {
+      customerRepositoryMock.update = jest.fn();
+      customerRepositoryMock.findOne = jest.fn().mockReturnValue({});
+    });
+
+    xit('should returns an exception when the customer not exist', async () => {
+      customerRepositoryMock.findOne = jest.fn().mockReturnValue(undefined);
+
+      await expect(customerService.updateCustomer('1', baseCustomer))
+        .rejects
+        .toThrowError('The customer not exists');
+    });
+
+    it('should call to update on CustomerRepository', async () => {
+      await customerService.updateCustomer('1', baseCustomer);
+
+      expect(customerRepositoryMock.update).toBeCalled();
+    });
+  });
+
 });

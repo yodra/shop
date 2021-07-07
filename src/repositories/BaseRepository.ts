@@ -41,4 +41,13 @@ export class BaseRepository<T> {
       }
     });
   }
+
+  async updateOne(id: string, document: Partial<T>) {
+    await this.getCollection().findOneAndUpdate({ _id: new ObjectId(id) }, {
+      $set: {
+        ...document,
+        updatedAt: new Date()
+      }
+    });
+  }
 }
