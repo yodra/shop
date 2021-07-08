@@ -22,8 +22,14 @@ export class CustomerController implements interfaces.Controller {
   }
 
   @httpGet('/')
-  async getCustomers(): Promise<Customer[]> {
-    return this.customerService.getCustomers();
+  async getAllCustomers(): Promise<Customer[]> {
+    return this.customerService.getAllCustomers();
+  }
+
+  @httpGet('/:id')
+  async getCustomer(@requestParam('id') id: string): Promise<Customer> {
+    // TODO: assertObjectId(id)
+    return this.customerService.getCustomer(id);
   }
 
   @httpPost('/')

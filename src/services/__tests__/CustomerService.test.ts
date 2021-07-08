@@ -5,27 +5,62 @@ const customerRepositoryMock: Partial<CustomerRepository> = {
   findAll: () => Promise.resolve([]),
   insert: jest.fn(),
   delete: jest.fn(),
-  update: jest.fn()
+  update: jest.fn(),
+  findOne: jest.fn()
 };
 
 describe('CustomerService', () => {
   const customerService = new CustomerService(customerRepositoryMock as any);
 
-  describe('getCustomers', () => {
+  describe('getAllCustomers', () => {
     it('should return a Customer list', async function () {
       customerRepositoryMock.findAll = () => Promise.resolve([{
-        id: 'aId',
+        id: 'aId1',
         name: 'aName',
         lastname: 'aLastname',
         image: 'aUrlImage'
+      }, {
+        id: 'aId2',
+        name: 'aName',
+        lastname: 'aLastname'
       }]);
 
-      expect(await customerService.getCustomers()).toEqual([{
-        id: 'aId',
+      expect(await customerService.getAllCustomers()).toEqual([{
+        id: 'aId1',
         name: 'aName',
         lastname: 'aLastname',
         image: 'aUrlImage'
+      }, {
+        id: 'aId2',
+        name: 'aName',
+        lastname: 'aLastname'
       }]);
+    });
+  });
+
+  describe('getCustomer', () => {
+    it('should return a Customer', async function () {
+      customerRepositoryMock.findOne = () => Promise.resolve({
+        id: '1',
+        name: 'aName',
+        lastname: 'aLastname',
+        image: 'aUrlImage'
+      });
+
+      expect(await customerService.getCustomer('1')).toEqual({
+        id: '1',
+        name: 'aName',
+        lastname: 'aLastname',
+        image: 'aUrlImage'
+      });
+    });
+
+    it('should returns an exception when the customer not exist', async () => {
+      customerRepositoryMock.findOne = jest.fn().mockReturnValue({});
+
+      await expect(customerService.getCustomer('1'))
+        .rejects
+        .toThrowError('The customer not exists');
     });
   });
 
@@ -65,7 +100,7 @@ describe('CustomerService', () => {
       customerRepositoryMock.findOne = jest.fn().mockReturnValue({});
     });
 
-    xit('should returns an exception when the customer not exist', async () => {
+    it('should returns an exception when the customer not exist', async () => {
       customerRepositoryMock.findOne = jest.fn().mockReturnValue(undefined);
 
       await expect(customerService.updateCustomer('1', baseCustomer))
@@ -79,5 +114,4 @@ describe('CustomerService', () => {
       expect(customerRepositoryMock.update).toBeCalled();
     });
   });
-
 });

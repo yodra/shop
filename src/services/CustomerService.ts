@@ -16,8 +16,17 @@ export class CustomerService {
   constructor(@inject(TYPES.CustomerRepository) private customerRepository: CustomerRepository) {
   }
 
-  async getCustomers(): Promise<Customer[]> {
+  async getAllCustomers(): Promise<Customer[]> {
     return this.customerRepository.findAll();
+  }
+
+  async getCustomer(id: string): Promise<Customer> {
+    const customer = this.customerRepository.findOne({ id });
+    if (customer) {
+      throw new ServiceException('The customer not exists');
+    }
+
+    return customer;
   }
 
   async createCustomer(request: CreateCustomerRequest) {
@@ -55,4 +64,5 @@ export class CustomerService {
       lastname: request.lastname
     });
   }
+
 }

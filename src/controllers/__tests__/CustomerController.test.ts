@@ -5,10 +5,11 @@ import { CustomerService } from '../../services/CustomerService';
 
 let server;
 const customerServiceMock: Partial<CustomerService> = {
-  getCustomers: jest.fn(),
+  getAllCustomers: jest.fn(),
   createCustomer: jest.fn(),
   removeCustomer: jest.fn(),
-  updateCustomer: jest.fn()
+  updateCustomer: jest.fn(),
+  getCustomer: jest.fn()
 };
 
 describe('CustomerController', () => {
@@ -21,7 +22,7 @@ describe('CustomerController', () => {
 
   describe('getCustomers', () => {
     it('should to get status response 200', async () => {
-      customerServiceMock.getCustomers = jest.fn().mockReturnValue([]);
+      customerServiceMock.getAllCustomers = jest.fn().mockReturnValue([]);
 
       await request(server)
         .get('/customer')
@@ -90,6 +91,7 @@ describe('CustomerController', () => {
         .expect(400);
     });
 
+
     it('should return an exception when the customer lastname is not provided', async () => {
       await request(server)
         .put('/customer/1')
@@ -103,6 +105,25 @@ describe('CustomerController', () => {
         .send(baseCustomer);
 
       expect(customerServiceMock.updateCustomer).toBeCalledWith('1', baseCustomer);
+    });
+  });
+
+  describe('getCustomer', () => {
+    it('should to get status response 200', async () => {
+      customerServiceMock.getCustomer = jest.fn().mockReturnValue({});
+
+      await request(server)
+        .get('/customer/1')
+        .expect(200);
+    });
+
+    it.todo('should return an exception when the id is not a ObjectId');
+
+    it('should call to getCustomer on CustomerService', async () => {
+      await request(server)
+        .get('/customer/1');
+
+      expect(customerServiceMock.getCustomer).toBeCalledWith('1');
     });
   });
 });
