@@ -22,7 +22,7 @@ export class CustomerService {
 
   async getCustomer(id: string): Promise<Customer> {
     const customer = this.customerRepository.findOne({ id });
-    if (customer) {
+    if (!customer) {
       throw new ServiceException('The customer not exists');
     }
 
@@ -45,10 +45,6 @@ export class CustomerService {
     });
   }
 
-  async removeCustomer(id: string) {
-    await this.customerRepository.delete(id);
-  }
-
   async updateCustomer(id: string, request: UpdateCustomerRequest) {
     const existingCustomer = await this.customerRepository.findOne({
       name: request.name,
@@ -63,6 +59,10 @@ export class CustomerService {
       name: request.name,
       lastname: request.lastname
     });
+  }
+
+  async removeCustomer(id: string) {
+    await this.customerRepository.delete(id);
   }
 
 }

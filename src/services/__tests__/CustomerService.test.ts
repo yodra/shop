@@ -56,7 +56,7 @@ describe('CustomerService', () => {
     });
 
     it('should returns an exception when the customer not exist', async () => {
-      customerRepositoryMock.findOne = jest.fn().mockReturnValue({});
+      customerRepositoryMock.findOne = jest.fn().mockReturnValue(undefined);
 
       await expect(customerService.getCustomer('1'))
         .rejects

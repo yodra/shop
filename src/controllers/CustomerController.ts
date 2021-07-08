@@ -43,19 +43,20 @@ export class CustomerController implements interfaces.Controller {
     });
   }
 
+  @httpPut('/:id')
+  async updateCustomer(@requestParam('id') id: string, @requestBody() body: any) {
+    assertBodyHasSeveralFields(body, ['name', 'lastname']);
+    // TODO: assertObjectId(id)
+    // TODO: Extract from session the userId
+
+    const request = UpdateCustomerRequest.build(body);
+    await this.customerService.updateCustomer(id, request);
+  }
+
   @httpDelete('/:id')
   async removeCustomer(@requestParam('id') id: string) {
     // TODO: assertObjectId(id)
     await this.customerService.removeCustomer(id);
   }
 
-  @httpPut('/:id')
-  async updateCustomer(@requestParam('id') id: string, @requestBody() body: any) {
-    assertBodyHasSeveralFields(body, ['name', 'lastname']);
-    // TODO: assertObjectId(id)
-
-    const request = UpdateCustomerRequest.build(body);
-    await this.customerService.updateCustomer(id, request);
-  }
 }
-

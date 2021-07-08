@@ -17,11 +17,11 @@ export class CustomerRepository extends BaseRepository<Customer> {
     return this.insertOne(customer);
   }
 
-  async delete(id) {
-    await this.deleteOne(id);
-  }
-
   async update(id: string, customer: Partial<Customer>) {
     await this.updateOne(id, customer);
+  }
+
+  async delete(id) {
+    await this.deleteOne(id);
   }
 }
