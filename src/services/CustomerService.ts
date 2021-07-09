@@ -21,7 +21,7 @@ export class CustomerService {
   }
 
   async getCustomer(id: string): Promise<Customer> {
-    const customer = this.customerRepository.findOne({ id });
+    const customer = await this.customerRepository.findById(id);
     if (!customer) {
       throw new ServiceException('The customer not exists');
     }
@@ -46,10 +46,7 @@ export class CustomerService {
   }
 
   async updateCustomer(id: string, request: UpdateCustomerRequest) {
-    const existingCustomer = await this.customerRepository.findOne({
-      name: request.name,
-      lastname: request.lastname
-    });
+    const existingCustomer = await this.customerRepository.findById(id);
 
     if (!existingCustomer) {
       throw new ServiceException('The customer not exists');

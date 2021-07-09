@@ -50,6 +50,7 @@ export class CustomerController implements interfaces.Controller {
 
     // TODO: Extract from session the userId
     const request = UpdateCustomerRequest.build(body);
+    console.log('--->', request);
     await this.customerService.updateCustomer(id, request);
   }
 

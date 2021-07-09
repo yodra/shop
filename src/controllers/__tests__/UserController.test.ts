@@ -37,7 +37,6 @@ describe('UserController', () => {
     it.todo('should returns an exception when the user lastname is not provided');
 
     it.todo('should return an exception when the id is not a ObjectId');
-
   });
 
   describe('updateUser', () => {
