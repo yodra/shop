@@ -34,11 +34,11 @@ export class CustomerController implements interfaces.Controller {
 
   @httpPost('/')
   async createCustomer(@requestBody() body: any) {
-    // TODO: Add id as required
-    assertBodyHasSeveralFields(body, ['name', 'lastname']);
+    assertBodyHasSeveralFields(body, ['id', 'name', 'lastname']);
 
     // TODO: Extract from session the userId
     await this.customerService.createCustomer({
+      businessId: body.id,
       name: body.name,
       lastname: body.lastname
     });
@@ -47,7 +47,6 @@ export class CustomerController implements interfaces.Controller {
   @httpPut('/:id')
   async updateCustomer(@requestParam('id') id: string, @requestBody() body: any) {
     assertObjectId(id);
-    // TODO: Add id as required
     assertBodyHasSeveralFields(body, ['name', 'lastname']);
 
     // TODO: Extract from session the userId

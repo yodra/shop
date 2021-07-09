@@ -54,13 +54,20 @@ describe('CustomerController', () => {
   });
 
   describe('createCustomer', () => {
-    const baseCustomer = { name: 'Ana', lastname: 'Morales' };
+    const baseCustomer = { id: 'businessId', name: 'Ana', lastname: 'Morales' };
 
     it('should create a new customer', async () => {
       await request(server)
         .post('/customer')
         .send(baseCustomer)
         .expect(204);
+    });
+
+    it('should returns an exception when the customer business id is not provided', async () => {
+      await request(server)
+        .post('/customer')
+        .send({ ...baseCustomer, id: undefined })
+        .expect(400);
     });
 
     it('should returns an exception when the customer name is not provided', async () => {
@@ -82,7 +89,11 @@ describe('CustomerController', () => {
         .post('/customer')
         .send({ ...baseCustomer });
 
-      expect(customerServiceMock.createCustomer).toBeCalledWith(baseCustomer);
+      expect(customerServiceMock.createCustomer).toBeCalledWith({
+        businessId: 'businessId',
+        name: 'Ana',
+        lastname: 'Morales'
+      });
     });
   });
 
@@ -103,6 +114,7 @@ describe('CustomerController', () => {
 
   describe('updateCustomer', () => {
     const baseCustomer = { name: 'Ana', lastname: 'Morales' };
+
     it('should to get status response 204', async () => {
       await request(server)
         .put('/customer/551137c2f9e1fac808a5f572')
@@ -116,7 +128,6 @@ describe('CustomerController', () => {
         .send(baseCustomer)
         .expect(400);
     });
-
 
     it('should return an exception when the customer name is not provided', async () => {
       await request(server)
@@ -132,8 +143,6 @@ describe('CustomerController', () => {
         .expect(400);
     });
 
-    it.todo('should return an exception when the customer id is not provided');
-
     it('should call to updateCustomer on CustomerService', async () => {
       await request(server)
         .put('/customer/551137c2f9e1fac808a5f572')
@@ -142,4 +151,5 @@ describe('CustomerController', () => {
       expect(customerServiceMock.updateCustomer).toBeCalledWith('551137c2f9e1fac808a5f572', baseCustomer);
     });
   });
-});
+})
+;

@@ -16,23 +16,28 @@ describe('CustomerService', () => {
   describe('getAllCustomers', () => {
     it('should return a Customer list', async function () {
       customerRepositoryMock.findAll = () => Promise.resolve([{
-        id: 'aId1',
+        _id: 'mongoId',
+        businessId: 'aId1',
         name: 'aName',
         lastname: 'aLastname',
         image: 'aUrlImage'
       }, {
-        id: 'aId2',
+        _id: 'mongoId2',
+        businessId: 'aId2',
         name: 'aName',
         lastname: 'aLastname'
       }]);
 
+      // TODO: not return a _id of db
       expect(await customerService.getAllCustomers()).toEqual([{
-        id: 'aId1',
+        _id: 'mongoId',
+        businessId: 'aId1',
         name: 'aName',
         lastname: 'aLastname',
         image: 'aUrlImage'
       }, {
-        id: 'aId2',
+        _id: 'mongoId2',
+        businessId: 'aId2',
         name: 'aName',
         lastname: 'aLastname'
       }]);
@@ -42,14 +47,16 @@ describe('CustomerService', () => {
   describe('getCustomer', () => {
     it('should return a Customer', async function () {
       customerRepositoryMock.findById = () => Promise.resolve({
-        id: '1',
+        _id: 'mongoId',
+        businessId: '1',
         name: 'aName',
         lastname: 'aLastname',
         image: 'aUrlImage'
       });
 
       expect(await customerService.getCustomer('1')).toEqual({
-        id: '1',
+        _id: 'mongoId',
+        businessId: '1',
         name: 'aName',
         lastname: 'aLastname',
         image: 'aUrlImage'
@@ -71,21 +78,25 @@ describe('CustomerService', () => {
     });
 
     it('should call to findOne on CustomerRepository', async () => {
-      await customerService.createCustomer({ name: 'Ana', lastname: 'Morales' });
+      await customerService.createCustomer({ businessId: 'businessId', name: 'Ana', lastname: 'Morales' });
 
-      expect(customerRepositoryMock.findOne).toBeCalledWith({ name: 'Ana', lastname: 'Morales' });
+      expect(customerRepositoryMock.findOne).toBeCalledWith({
+        businessId: 'businessId',
+        name: 'Ana',
+        lastname: 'Morales'
+      });
     });
 
     it('should returns an exception when the customer already exist', async () => {
       customerRepositoryMock.findOne = jest.fn().mockReturnValue({});
 
-      await expect(customerService.createCustomer({ name: 'Ana', lastname: 'Morales' }))
+      await expect(customerService.createCustomer({ businessId: 'businessId', name: 'Ana', lastname: 'Morales' }))
         .rejects
         .toThrowError('The customer already exists');
     });
 
     it('should call to insert on CustomerRepository', async () => {
-      await customerService.createCustomer({ name: 'Ana', lastname: 'Morales' });
+      await customerService.createCustomer({ businessId: 'businessId', name: 'Ana', lastname: 'Morales' });
 
       expect(customerRepositoryMock.insert).toBeCalled();
     });

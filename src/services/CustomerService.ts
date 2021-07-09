@@ -5,7 +5,8 @@ import { CustomerRepository } from '../repositories/CustomerRepository';
 import { ServiceException } from './exceptions/ServiceException';
 import { CustomerUpdateRequest } from '../requests/CustomerUpdateRequest';
 
-interface CreateCustomerRequest {
+export interface CustomerCreateRequest {
+  businessId: string;
   name: string;
   lastname: string;
 }
@@ -29,8 +30,9 @@ export class CustomerService {
     return customer;
   }
 
-  async createCustomer(request: CreateCustomerRequest) {
+  async createCustomer(request: CustomerCreateRequest) {
     const existingCustomer = await this.customerRepository.findOne({
+      businessId: request.businessId,
       name: request.name,
       lastname: request.lastname
     });
@@ -40,6 +42,7 @@ export class CustomerService {
     }
 
     await this.customerRepository.insert({
+      businessId: request.businessId,
       name: request.name,
       lastname: request.lastname
     });
