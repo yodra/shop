@@ -34,4 +34,8 @@ export class UserService {
       adminStatus: request.adminStatus
     });
   }
+
+  async update(id: string, request: { adminStatus: any; name: any }) {
+    console.log(id, request);
+  }
 }

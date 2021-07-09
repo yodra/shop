@@ -1,9 +1,9 @@
-import { controller, httpGet, httpPost, interfaces, requestBody } from 'inversify-express-utils';
+import { controller, httpGet, httpPost, httpPut, interfaces, requestBody, requestParam } from 'inversify-express-utils';
 import { inject } from 'inversify';
 import { UserService } from '../services/UserService';
 import { TYPES } from '../constants/types';
 import { User } from '../models/User';
-import { assertBodyHasSeveralFields } from './utils/assertions';
+import { assertBodyHasSeveralFields, assertObjectId } from './utils/assertions';
 
 @controller('/user')
 export class UserController implements interfaces.Controller {
@@ -21,6 +21,17 @@ export class UserController implements interfaces.Controller {
     assertBodyHasSeveralFields(body, ['name', 'adminStatus']);
 
     await this.userService.create({
+      name: body.name,
+      adminStatus: body.adminStatus
+    });
+  }
+
+  @httpPut('/:id')
+  async update(@requestParam('id') id: string, @requestBody() body: any) {
+    assertObjectId(id);
+    assertBodyHasSeveralFields(body, ['name', 'adminStatus']);
+
+    this.userService.update(id, {
       name: body.name,
       adminStatus: body.adminStatus
     });
