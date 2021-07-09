@@ -20,7 +20,7 @@ describe('UserService', () => {
     });
 
     it('should return an exception when the user already exist', async () => {
-      userRepositoryMock.findOne = jest.fn().mockReturnValue({ });
+      userRepositoryMock.findOne = jest.fn().mockReturnValue({});
 
       await expect(userService.create({ name: 'Lucia', adminStatus: false }))
         .rejects
@@ -28,6 +28,8 @@ describe('UserService', () => {
     });
 
     it('should call to insert on UserRepository', async () => {
+      userRepositoryMock.findOne = jest.fn().mockReturnValue(undefined);
+
       await userService.create(baseUser);
 
       expect(userRepositoryMock.insert).toBeCalledWith(baseUser);
