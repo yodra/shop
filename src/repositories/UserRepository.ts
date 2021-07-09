@@ -16,4 +16,9 @@ export class UserRepository extends BaseRepository<User> {
   insert(user: Partial<User>) {
     return this.insertOne(user);
   }
+
+  async update(id: string, user: Partial<User>) {
+    await this.updateOne(id, user);
+  }
+
 }

@@ -24,6 +24,10 @@ export class BaseRepository<T> {
     return this.getCollection().findOne({ ...filter, deletedAt: { $exists: false } });
   }
 
+  findById(id: string): Promise<T> {
+    return this.findOne({ _id: new ObjectId(id), deletedAt: { $exists: false } });
+  }
+
   async insertOne(document: Partial<T>) {
     const result = await this.getCollection().insertOne({
       ...document,

@@ -3,7 +3,9 @@ import { UserRepository } from '../../repositories/UserRepository';
 
 const userRepositoryMock: Partial<UserRepository> = {
   findOne: jest.fn(),
-  insert: jest.fn()
+  insert: jest.fn(),
+  update: jest.fn(),
+  findById: jest.fn()
 };
 
 describe('UserService', () => {
@@ -29,6 +31,27 @@ describe('UserService', () => {
       await userService.create(baseUser);
 
       expect(userRepositoryMock.insert).toBeCalledWith(baseUser);
+    });
+  });
+
+  describe('update', () => {
+    beforeEach(() => {
+      userRepositoryMock.update = jest.fn();
+      userRepositoryMock.findById = jest.fn().mockReturnValue({});
+    });
+
+    it('should returns an exception when the user not exist', async () => {
+      userRepositoryMock.findById = jest.fn().mockReturnValue(undefined);
+
+      await expect(userService.update('1', baseUser))
+        .rejects
+        .toThrowError('The user not exists');
+    });
+
+    it('should call to update on UserRepository', async () => {
+      await userService.update('1', baseUser);
+
+      expect(userRepositoryMock.update).toBeCalled();
     });
   });
 });

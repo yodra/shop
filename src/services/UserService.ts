@@ -9,6 +9,11 @@ interface UserCreateRequest {
   adminStatus: boolean;
 }
 
+interface UserUpdateRequest {
+  adminStatus: any;
+  name: any;
+}
+
 @injectable()
 export class UserService {
 
@@ -35,7 +40,16 @@ export class UserService {
     });
   }
 
-  async update(id: string, request: { adminStatus: any; name: any }) {
-    console.log(id, request);
+  async update(id: string, request: UserUpdateRequest) {
+    const existingUser = await this.userRepository.findById(id);
+
+    if (!existingUser) {
+      throw new ServiceException('The user not exists');
+    }
+
+    await this.userRepository.update(id, {
+      name: request.name,
+      adminStatus: request.adminStatus
+    });
   }
 }

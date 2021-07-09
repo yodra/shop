@@ -31,7 +31,7 @@ export class UserController implements interfaces.Controller {
     assertObjectId(id);
     assertBodyHasSeveralFields(body, ['name', 'adminStatus']);
 
-    this.userService.update(id, {
+    await this.userService.update(id, {
       name: body.name,
       adminStatus: body.adminStatus
     });
