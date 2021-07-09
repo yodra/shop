@@ -1,4 +1,13 @@
-import { controller, httpGet, httpPost, httpPut, interfaces, requestBody, requestParam } from 'inversify-express-utils';
+import {
+  controller,
+  httpDelete,
+  httpGet,
+  httpPost,
+  httpPut,
+  interfaces,
+  requestBody,
+  requestParam
+} from 'inversify-express-utils';
 import { inject } from 'inversify';
 import { UserService } from '../services/UserService';
 import { TYPES } from '../constants/types';
@@ -34,5 +43,11 @@ export class UserController implements interfaces.Controller {
 
     const request = UserUpdateRequest.build(body);
     await this.userService.update(id, request);
+  }
+
+  @httpDelete('/:id')
+  async remove(@requestParam('id') id: string) {
+    assertObjectId(id);
+    await this.userService.remove(id);
   }
 }

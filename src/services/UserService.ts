@@ -48,4 +48,8 @@ export class UserService {
       adminStatus: request.adminStatus
     });
   }
+
+  async remove(id: string) {
+    await this.userRepository.delete(id);
+  }
 }

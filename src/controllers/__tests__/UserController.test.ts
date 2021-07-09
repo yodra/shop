@@ -7,7 +7,8 @@ let server;
 const userServiceMock = {
   getUsers: jest.fn(),
   create: jest.fn(),
-  update: jest.fn()
+  update: jest.fn(),
+  remove: jest.fn()
 };
 
 describe('UserController', () => {
@@ -99,10 +100,18 @@ describe('UserController', () => {
     });
   });
 
-  describe('removeUser', () => {
-    it.todo('should to get status response 204');
+  describe('remove', () => {
+    it('should to get status response 204', async () => {
+      await request(server)
+        .delete('/user/551137c2f9e1fac808a5f572')
+        .expect(204);
+    });
 
-    it.todo('should return an exception when the id is not a ObjectId');
+    it('should return an exception when the id is not a ObjectId', async () => {
+      await request(server)
+        .delete('/user/1')
+        .expect(400);
+    });
   });
 
   describe('changeAdminStatus', () => {

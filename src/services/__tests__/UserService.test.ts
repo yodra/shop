@@ -5,7 +5,8 @@ const userRepositoryMock: Partial<UserRepository> = {
   findOne: jest.fn(),
   insert: jest.fn(),
   update: jest.fn(),
-  findById: jest.fn()
+  findById: jest.fn(),
+  delete: jest.fn()
 };
 
 describe('UserService', () => {
@@ -54,6 +55,14 @@ describe('UserService', () => {
       await userService.update('1', baseUser);
 
       expect(userRepositoryMock.update).toBeCalled();
+    });
+  });
+
+  describe('remove', () => {
+    it('should call to delete on UserRepository', async function () {
+      await userService.remove('1');
+
+      expect(userRepositoryMock.delete).toBeCalled();
     });
   });
 });

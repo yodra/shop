@@ -21,4 +21,7 @@ export class UserRepository extends BaseRepository<User> {
     await this.updateOne(id, user);
   }
 
+  async delete(id) {
+    await this.deleteOne(id);
+  }
 }
