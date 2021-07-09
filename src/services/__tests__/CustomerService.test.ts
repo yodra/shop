@@ -6,7 +6,8 @@ const customerRepositoryMock: Partial<CustomerRepository> = {
   insert: jest.fn(),
   delete: jest.fn(),
   update: jest.fn(),
-  findOne: jest.fn()
+  findOne: jest.fn(),
+  findById: jest.fn()
 };
 
 describe('CustomerService', () => {
@@ -40,7 +41,7 @@ describe('CustomerService', () => {
 
   describe('getCustomer', () => {
     it('should return a Customer', async function () {
-      customerRepositoryMock.findOne = () => Promise.resolve({
+      customerRepositoryMock.findById = () => Promise.resolve({
         id: '1',
         name: 'aName',
         lastname: 'aLastname',
@@ -56,7 +57,7 @@ describe('CustomerService', () => {
     });
 
     it('should returns an exception when the customer not exist', async () => {
-      customerRepositoryMock.findOne = jest.fn().mockReturnValue(undefined);
+      customerRepositoryMock.findById = jest.fn().mockReturnValue(undefined);
 
       await expect(customerService.getCustomer('1'))
         .rejects
@@ -97,11 +98,11 @@ describe('CustomerService', () => {
 
     beforeEach(() => {
       customerRepositoryMock.update = jest.fn();
-      customerRepositoryMock.findOne = jest.fn().mockReturnValue({});
+      customerRepositoryMock.findById = jest.fn().mockReturnValue({});
     });
 
     it('should returns an exception when the customer not exist', async () => {
-      customerRepositoryMock.findOne = jest.fn().mockReturnValue(undefined);
+      customerRepositoryMock.findById = jest.fn().mockReturnValue(undefined);
 
       await expect(customerService.updateCustomer('1', baseCustomer))
         .rejects
