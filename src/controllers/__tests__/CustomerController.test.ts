@@ -30,6 +30,29 @@ describe('CustomerController', () => {
     });
   });
 
+  describe('getCustomer', () => {
+    it('should to get status response 200', async () => {
+      customerServiceMock.getCustomer = jest.fn().mockReturnValue({});
+
+      await request(server)
+        .get('/customer/551137c2f9e1fac808a5f572')
+        .expect(200);
+    });
+
+    it('should return an exception when the id is not a ObjectId', async () => {
+      await request(server)
+        .get('/customer/1')
+        .expect(400);
+    });
+
+    it('should call to getCustomer on CustomerService', async () => {
+      await request(server)
+        .get('/customer/551137c2f9e1fac808a5f572');
+
+      expect(customerServiceMock.getCustomer).toBeCalledWith('551137c2f9e1fac808a5f572');
+    });
+  });
+
   describe('createCustomer', () => {
     const baseCustomer = { name: 'Ana', lastname: 'Morales' };
 
@@ -66,64 +89,55 @@ describe('CustomerController', () => {
   describe('removeCustomer', () => {
     it('should to get status response 204', async () => {
       await request(server)
-        .delete('/customer/1')
+        .delete('/customer/551137c2f9e1fac808a5f572')
         .expect(204);
     });
 
-    it.todo('should return an exception when the id is not a ObjectId');
+    it('should return an exception when the id is not a ObjectId', async () => {
+      await request(server)
+        .delete('/customer/1')
+        .expect(400);
+    });
+
   });
 
   describe('updateCustomer', () => {
     const baseCustomer = { name: 'Ana', lastname: 'Morales' };
     it('should to get status response 204', async () => {
       await request(server)
-        .put('/customer/1')
+        .put('/customer/551137c2f9e1fac808a5f572')
         .send(baseCustomer)
         .expect(204);
     });
 
-    it.todo('should return an exception when the id is not a ObjectId');
-
-    it('should return an exception when the customer name is not provided', async () => {
+    it('should return an exception when the id is not a ObjectId', async () => {
       await request(server)
         .put('/customer/1')
-        .send({ ...baseCustomer, name: undefined })
+        .send(baseCustomer)
         .expect(400);
     });
 
 
+    it('should return an exception when the customer name is not provided', async () => {
+      await request(server)
+        .put('/customer/551137c2f9e1fac808a5f572')
+        .send({ ...baseCustomer, name: undefined })
+        .expect(400);
+    });
+
     it('should return an exception when the customer lastname is not provided', async () => {
       await request(server)
-        .put('/customer/1')
+        .put('/customer/551137c2f9e1fac808a5f572')
         .send({ ...baseCustomer, lastname: undefined })
         .expect(400);
     });
 
     it('should call to updateCustomer on CustomerService', async () => {
       await request(server)
-        .put('/customer/1')
+        .put('/customer/551137c2f9e1fac808a5f572')
         .send(baseCustomer);
 
-      expect(customerServiceMock.updateCustomer).toBeCalledWith('1', baseCustomer);
-    });
-  });
-
-  describe('getCustomer', () => {
-    it('should to get status response 200', async () => {
-      customerServiceMock.getCustomer = jest.fn().mockReturnValue({});
-
-      await request(server)
-        .get('/customer/1')
-        .expect(200);
-    });
-
-    it.todo('should return an exception when the id is not a ObjectId');
-
-    it('should call to getCustomer on CustomerService', async () => {
-      await request(server)
-        .get('/customer/1');
-
-      expect(customerServiceMock.getCustomer).toBeCalledWith('1');
+      expect(customerServiceMock.updateCustomer).toBeCalledWith('551137c2f9e1fac808a5f572', baseCustomer);
     });
   });
 });
