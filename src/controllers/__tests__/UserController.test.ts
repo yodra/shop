@@ -30,7 +30,7 @@ describe('UserController', () => {
     });
   });
 
-  describe('createUser', () => {
+  describe('create', () => {
     const baseUser = { name: 'Lucia', adminStatus: false };
 
     it('should create a new user', async () => {

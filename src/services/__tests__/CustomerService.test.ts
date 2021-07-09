@@ -70,6 +70,12 @@ describe('CustomerService', () => {
       customerRepositoryMock.findOne = jest.fn();
     });
 
+    it('should call to findOne on CustomerRepository', async () => {
+      await customerService.createCustomer({ name: 'Ana', lastname: 'Morales' });
+
+      expect(customerRepositoryMock.findOne).toBeCalledWith({ name: 'Ana', lastname: 'Morales' });
+    });
+
     it('should returns an exception when the customer already exist', async () => {
       customerRepositoryMock.findOne = jest.fn().mockReturnValue({});
 

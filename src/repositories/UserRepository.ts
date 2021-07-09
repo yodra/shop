@@ -12,4 +12,8 @@ export class UserRepository extends BaseRepository<User> {
   findAll(): Promise<User[]> {
     return this.find({});
   }
+
+  insert(user) {
+    return this.insertOne(user);
+  }
 }
