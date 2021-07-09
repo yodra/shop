@@ -13,7 +13,7 @@ import { TYPES } from '../constants/types';
 import { CustomerService } from '../services/CustomerService';
 import { Customer } from '../models/Customer';
 import { assertBodyHasSeveralFields, assertObjectId } from './utils/assertions';
-import { UpdateCustomerRequest } from '../requests/UpdateCustomerRequest';
+import { CustomerUpdateRequest } from '../requests/CustomerUpdateRequest';
 
 @controller('/customer')
 export class CustomerController implements interfaces.Controller {
@@ -51,7 +51,7 @@ export class CustomerController implements interfaces.Controller {
     assertBodyHasSeveralFields(body, ['name', 'lastname']);
 
     // TODO: Extract from session the userId
-    const request = UpdateCustomerRequest.build(body);
+    const request = CustomerUpdateRequest.build(body);
     await this.customerService.updateCustomer(id, request);
   }
 

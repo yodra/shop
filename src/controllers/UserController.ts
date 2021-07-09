@@ -4,6 +4,7 @@ import { UserService } from '../services/UserService';
 import { TYPES } from '../constants/types';
 import { User } from '../models/User';
 import { assertBodyHasSeveralFields, assertObjectId } from './utils/assertions';
+import { UserUpdateRequest } from '../requests/UserUpdateRequest';
 
 @controller('/user')
 export class UserController implements interfaces.Controller {
@@ -31,9 +32,7 @@ export class UserController implements interfaces.Controller {
     assertObjectId(id);
     assertBodyHasSeveralFields(body, ['name', 'adminStatus']);
 
-    await this.userService.update(id, {
-      name: body.name,
-      adminStatus: body.adminStatus
-    });
+    const request = UserUpdateRequest.build(body);
+    await this.userService.update(id, request);
   }
 }

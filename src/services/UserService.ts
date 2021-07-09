@@ -3,15 +3,11 @@ import { TYPES } from '../constants/types';
 import { UserRepository } from '../repositories/UserRepository';
 import { User } from '../models/User';
 import { ServiceException } from './exceptions/ServiceException';
+import { UserUpdateRequest } from '../requests/UserUpdateRequest';
 
 interface UserCreateRequest {
   name: string;
   adminStatus: boolean;
-}
-
-interface UserUpdateRequest {
-  adminStatus: any;
-  name: any;
 }
 
 @injectable()

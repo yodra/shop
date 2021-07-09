@@ -3,7 +3,7 @@ import { Customer } from '../models/Customer';
 import { TYPES } from '../constants/types';
 import { CustomerRepository } from '../repositories/CustomerRepository';
 import { ServiceException } from './exceptions/ServiceException';
-import { UpdateCustomerRequest } from '../requests/UpdateCustomerRequest';
+import { CustomerUpdateRequest } from '../requests/CustomerUpdateRequest';
 
 interface CreateCustomerRequest {
   name: string;
@@ -45,7 +45,7 @@ export class CustomerService {
     });
   }
 
-  async updateCustomer(id: string, request: UpdateCustomerRequest) {
+  async updateCustomer(id: string, request: CustomerUpdateRequest) {
     const existingCustomer = await this.customerRepository.findById(id);
 
     if (!existingCustomer) {
