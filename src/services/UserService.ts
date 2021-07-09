@@ -4,6 +4,11 @@ import { UserRepository } from '../repositories/UserRepository';
 import { User } from '../models/User';
 import { ServiceException } from './exceptions/ServiceException';
 
+interface UserCreateRequest {
+  name: string;
+  adminStatus: boolean;
+}
+
 @injectable()
 export class UserService {
 
@@ -14,7 +19,7 @@ export class UserService {
     return this.userRepository.findAll();
   }
 
-  async create(request) {
+  async create(request: UserCreateRequest) {
     const existingUser = await this.userRepository.findOne({
       name: request.name,
       adminStatus: request.adminStatus

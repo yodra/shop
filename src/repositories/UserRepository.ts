@@ -13,7 +13,7 @@ export class UserRepository extends BaseRepository<User> {
     return this.find({});
   }
 
-  insert(user) {
+  insert(user: Partial<User>) {
     return this.insertOne(user);
   }
 }
