@@ -1,11 +1,8 @@
-export const removeUndefinedValues = (request) => {
-  Object.keys(request).forEach(key => request[key] === undefined ? delete request[key] : {});
-};
+import { removeUndefinedValues } from '../utils/objectUtils';
 
 export class UserUpdateRequest {
   public readonly name: string;
   public readonly adminStatus: boolean;
-
 
   private constructor(name: string, adminStatus: boolean) {
     this.name = name;
@@ -14,7 +11,6 @@ export class UserUpdateRequest {
 
   static build(body: any): UserUpdateRequest {
     const request = new UserUpdateRequest(body.name, body.adminStatus);
-    removeUndefinedValues(request);
-    return request;
+    return removeUndefinedValues(request);
   }
 }

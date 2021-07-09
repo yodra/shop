@@ -1,4 +1,4 @@
-import { removeUndefinedValues } from './UserUpdateRequest';
+import { removeUndefinedValues } from '../utils/objectUtils';
 
 export class CustomerUpdateRequest {
   public readonly name: string;
