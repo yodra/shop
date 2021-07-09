@@ -28,4 +28,39 @@ describe('UserController', () => {
         .expect(expectedBody);
     });
   });
+
+  describe('createUser', () => {
+    it.todo('should create a new user');
+
+    it.todo('should returns an exception when the user name is not provided');
+
+    it.todo('should returns an exception when the user lastname is not provided');
+
+    it.todo('should return an exception when the id is not a ObjectId');
+
+  });
+
+  describe('updateUser', () => {
+    it.todo('should to get status response 204');
+
+    it.todo('should return an exception when the id is not a ObjectId');
+
+    it.todo('should return an exception when the user name is not provided');
+
+    it.todo('should return an exception when the user lastname is not provided');
+
+    it.todo('should call to updateUser on UserService');
+  });
+
+  describe('removeUser', () => {
+    it.todo('should to get status response 204');
+
+    it.todo('should return an exception when the id is not a ObjectId');
+  });
+
+  describe('changeAdminStatus', () => {
+    it.todo('should to get status response 204');
+
+    it.todo('should return an exception when the id is not a ObjectId');
+  });
 });
