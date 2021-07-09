@@ -3,7 +3,7 @@ import { ObjectId } from 'mongodb';
 
 export const assertBodyHasSeveralFields = (body: any, fields: string[]) => {
   fields.forEach(field => {
-    if (!body[field]) {
+    if (body[field] === undefined) {
       throw new ControllerClientException(`The ${field} is mandatory`);
     }
   });

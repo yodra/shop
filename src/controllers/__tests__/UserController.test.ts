@@ -6,7 +6,8 @@ import { User } from '../../models/User';
 let server;
 
 const userServiceMock = {
-  getUsers: jest.fn()
+  getUsers: jest.fn(),
+  create: jest.fn()
 };
 
 describe('UserController', () => {
@@ -30,13 +31,36 @@ describe('UserController', () => {
   });
 
   describe('createUser', () => {
-    it.todo('should create a new user');
+    const baseUser = { name: 'Lucia', adminStatus: false };
 
-    it.todo('should returns an exception when the user name is not provided');
+    it('should create a new user', async () => {
+      await request(server)
+        .post('/user')
+        .send(baseUser)
+        .expect(204);
+    });
 
-    it.todo('should returns an exception when the user lastname is not provided');
+    it('should returns an exception when the user name is not provided', async () => {
+      await request(server)
+        .post('/user')
+        .send({ ...baseUser, name: undefined })
+        .expect(400);
+    });
 
-    it.todo('should return an exception when the id is not a ObjectId');
+    it('should returns an exception when the user adminStatus is not provided', async () => {
+      await request(server)
+        .post('/user')
+        .send({ ...baseUser, adminStatus: undefined })
+        .expect(400);
+    });
+
+    it('should call to createUser on UserService', async () => {
+      await request(server)
+        .post('/user')
+        .send(baseUser);
+
+      expect(userServiceMock.create).toBeCalledWith(baseUser);
+    });
   });
 
   describe('updateUser', () => {
