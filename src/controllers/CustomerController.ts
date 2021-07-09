@@ -34,6 +34,7 @@ export class CustomerController implements interfaces.Controller {
 
   @httpPost('/')
   async createCustomer(@requestBody() body: any) {
+    // TODO: Add id as required
     assertBodyHasSeveralFields(body, ['name', 'lastname']);
 
     // TODO: Extract from session the userId
@@ -46,11 +47,11 @@ export class CustomerController implements interfaces.Controller {
   @httpPut('/:id')
   async updateCustomer(@requestParam('id') id: string, @requestBody() body: any) {
     assertObjectId(id);
+    // TODO: Add id as required
     assertBodyHasSeveralFields(body, ['name', 'lastname']);
 
     // TODO: Extract from session the userId
     const request = UpdateCustomerRequest.build(body);
-    console.log('--->', request);
     await this.customerService.updateCustomer(id, request);
   }
 

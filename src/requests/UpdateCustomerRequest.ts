@@ -2,7 +2,6 @@ export class UpdateCustomerRequest {
   public readonly name: string;
   public readonly lastname: string;
 
-
   private constructor(name: string, lastname: string) {
     this.name = name;
     this.lastname = lastname;

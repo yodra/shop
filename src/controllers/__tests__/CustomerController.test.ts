@@ -132,6 +132,8 @@ describe('CustomerController', () => {
         .expect(400);
     });
 
+    it.todo('should return an exception when the customer id is not provided');
+
     it('should call to updateCustomer on CustomerService', async () => {
       await request(server)
         .put('/customer/551137c2f9e1fac808a5f572')
