@@ -19,11 +19,11 @@ describe('UserController', () => {
     server = await getTestServer(container);
   });
 
-  const baseUser = { name: 'Lucia', adminStatus: false };
+  const baseUser = { name: 'Lucia', isAdmin: false };
 
   describe('getAll', () => {
     it('should to get status response 200 and returns a list of users', async () => {
-      userServiceMock.getUsers.mockReturnValue([{ id: '1234', name: 'name', adminStatus: false }]);
+      userServiceMock.getUsers.mockReturnValue([{ id: '1234', name: 'name', isAdmin: false }]);
 
       await request(server)
         .get('/user')
@@ -46,10 +46,10 @@ describe('UserController', () => {
         .expect(400);
     });
 
-    it('should returns an exception when the user adminStatus is not provided', async () => {
+    it('should returns an exception when the user isAdmin is not provided', async () => {
       await request(server)
         .post('/user')
-        .send({ ...baseUser, adminStatus: undefined })
+        .send({ ...baseUser, isAdmin: undefined })
         .expect(400);
     });
 
@@ -84,10 +84,10 @@ describe('UserController', () => {
         .expect(400);
     });
 
-    it('should return an exception when the user adminStatus is not provided', async () => {
+    it('should return an exception when the user isAdmin is not provided', async () => {
       await request(server)
         .put('/user/551137c2f9e1fac808a5f572')
-        .send({ ...baseUser, adminStatus: undefined })
+        .send({ ...baseUser, isAdmin: undefined })
         .expect(400);
     });
 
@@ -114,7 +114,7 @@ describe('UserController', () => {
     });
   });
 
-  describe('changeAdminStatus', () => {
+  describe('changeIsAdmin', () => {
     it.todo('should to get status response 204');
 
     it.todo('should return an exception when the id is not a ObjectId');

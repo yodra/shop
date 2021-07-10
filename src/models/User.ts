@@ -1,5 +1,6 @@
-export interface User {
-  id: string;
+import { Base } from './Base';
+
+export interface User extends Base {
   name: string;
-  adminStatus: boolean;
+  isAdmin: boolean;
 }

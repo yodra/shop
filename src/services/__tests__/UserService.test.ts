@@ -11,7 +11,7 @@ const userRepositoryMock: Partial<UserRepository> = {
 
 describe('UserService', () => {
   const userService = new UserService(userRepositoryMock as any);
-  const baseUser = { name: 'Lucia', adminStatus: false };
+  const baseUser = { name: 'Lucia', isAdmin: false };
 
   describe('create', () => {
     it('should call to findOne on UserRepository', async () => {
@@ -23,7 +23,7 @@ describe('UserService', () => {
     it('should return an exception when the user already exist', async () => {
       userRepositoryMock.findOne = jest.fn().mockReturnValue({});
 
-      await expect(userService.create({ name: 'Lucia', adminStatus: false }))
+      await expect(userService.create({ name: 'Lucia', isAdmin: false }))
         .rejects
         .toThrowError('The user already exists');
     });

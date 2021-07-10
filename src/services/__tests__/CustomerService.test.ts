@@ -15,51 +15,62 @@ describe('CustomerService', () => {
 
   describe('getAllCustomers', () => {
     it('should return a Customer list', async function () {
+      const date = new Date();
       customerRepositoryMock.findAll = () => Promise.resolve([{
         _id: 'mongoId',
-        businessId: 'aId1',
+        id: 'aId1',
         name: 'aName',
         lastname: 'aLastname',
-        image: 'aUrlImage'
+        image: 'aUrlImage',
+        createdAt: date
       }, {
         _id: 'mongoId2',
-        businessId: 'aId2',
+        id: 'aId2',
         name: 'aName',
-        lastname: 'aLastname'
+        lastname: 'aLastname',
+        createdAt: date
       }]);
 
-      // TODO: not return a _id of db
+      // TODO: Create Response
       expect(await customerService.getAllCustomers()).toEqual([{
         _id: 'mongoId',
-        businessId: 'aId1',
+        id: 'aId1',
         name: 'aName',
         lastname: 'aLastname',
-        image: 'aUrlImage'
+        image: 'aUrlImage',
+        createdAt: date
       }, {
         _id: 'mongoId2',
-        businessId: 'aId2',
+        id: 'aId2',
         name: 'aName',
-        lastname: 'aLastname'
+        lastname: 'aLastname',
+        createdAt: date
       }]);
     });
   });
 
   describe('getCustomer', () => {
+    // TODO create Response
     it('should return a Customer', async function () {
-      customerRepositoryMock.findById = () => Promise.resolve({
-        _id: 'mongoId',
-        businessId: '1',
-        name: 'aName',
-        lastname: 'aLastname',
-        image: 'aUrlImage'
-      });
+      const date = new Date();
+      customerRepositoryMock.findById = () => {
+        return Promise.resolve({
+          _id: 'mongoId',
+          id: '1',
+          name: 'aName',
+          lastname: 'aLastname',
+          image: 'aUrlImage',
+          createdAt: date
+        });
+      };
 
       expect(await customerService.getCustomer('1')).toEqual({
         _id: 'mongoId',
-        businessId: '1',
+        id: '1',
         name: 'aName',
         lastname: 'aLastname',
-        image: 'aUrlImage'
+        image: 'aUrlImage',
+        createdAt: date
       });
     });
 

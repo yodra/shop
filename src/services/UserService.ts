@@ -7,7 +7,7 @@ import { UserUpdateRequest } from '../requests/UserUpdateRequest';
 
 interface UserCreateRequest {
   name: string;
-  adminStatus: boolean;
+  isAdmin: boolean;
 }
 
 @injectable()
@@ -23,7 +23,7 @@ export class UserService {
   async create(request: UserCreateRequest) {
     const existingUser = await this.userRepository.findOne({
       name: request.name,
-      adminStatus: request.adminStatus
+      isAdmin: request.isAdmin
     });
 
     if (existingUser) {
@@ -32,7 +32,7 @@ export class UserService {
 
     await this.userRepository.insert({
       name: request.name,
-      adminStatus: request.adminStatus
+      isAdmin: request.isAdmin
     });
   }
 
@@ -45,7 +45,7 @@ export class UserService {
 
     await this.userRepository.update(id, {
       name: request.name,
-      adminStatus: request.adminStatus
+      isAdmin: request.isAdmin
     });
   }
 

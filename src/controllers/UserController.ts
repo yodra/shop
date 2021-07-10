@@ -28,18 +28,18 @@ export class UserController implements interfaces.Controller {
 
   @httpPost('/')
   async create(@requestBody() body: any) {
-    assertBodyHasSeveralFields(body, ['name', 'adminStatus']);
+    assertBodyHasSeveralFields(body, ['name', 'isAdmin']);
 
     await this.userService.create({
       name: body.name,
-      adminStatus: body.adminStatus
+      isAdmin: body.isAdmin
     });
   }
 
   @httpPut('/:id')
   async update(@requestParam('id') id: string, @requestBody() body: any) {
     assertObjectId(id);
-    assertBodyHasSeveralFields(body, ['name', 'adminStatus']);
+    assertBodyHasSeveralFields(body, ['name', 'isAdmin']);
 
     const request = UserUpdateRequest.build(body);
     await this.userService.update(id, request);

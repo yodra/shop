@@ -42,7 +42,7 @@ export class CustomerService {
     }
 
     await this.customerRepository.insert({
-      businessId: request.businessId,
+      id: request.businessId,
       name: request.name,
       lastname: request.lastname
     });

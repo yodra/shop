@@ -2,15 +2,15 @@ import { removeUndefinedValues } from '../utils/objectUtils';
 
 export class UserUpdateRequest {
   public readonly name: string;
-  public readonly adminStatus: boolean;
+  public readonly isAdmin: boolean;
 
-  private constructor(name: string, adminStatus: boolean) {
+  private constructor(name: string, isAdmin: boolean) {
     this.name = name;
-    this.adminStatus = adminStatus;
+    this.isAdmin = isAdmin;
   }
 
   static build(body: any): UserUpdateRequest {
-    const request = new UserUpdateRequest(body.name, body.adminStatus);
+    const request = new UserUpdateRequest(body.name, body.isAdmin);
     return removeUndefinedValues(request);
   }
 }
