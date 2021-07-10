@@ -6,6 +6,7 @@ import { CustomerService } from '../services/CustomerService';
 import { CustomerRepository } from '../repositories/CustomerRepository';
 import { Authentication } from './server/middleware/security/Authentication';
 import { OnlyAdmin } from './server/middleware/security/OnlyAdmin';
+import { S3Service } from '../services/S3Service';
 
 export const initializeContainer = (): Container => {
   const container = new Container();
@@ -20,6 +21,7 @@ export const initializeContainer = (): Container => {
 export const initializeServicesContainer = () => new ContainerModule((bind: interfaces.Bind) => {
   bind<UserService>(TYPES.UserService).to(UserService);
   bind<CustomerService>(TYPES.CustomerService).to(CustomerService);
+  bind<S3Service>(TYPES.S3Service).to(S3Service);
 });
 
 const initializeRepositoriesContainer = () => new ContainerModule((bind: interfaces.Bind) => {

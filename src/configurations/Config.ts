@@ -12,6 +12,12 @@ interface Configuration {
     cookieName: string;
     secret: string;
   };
+  aws: {
+    accessKeyId: string;
+    secretAccessKey: string;
+    s3Bucket: string;
+    region: string;
+  }
 }
 
 dotenv.config();
@@ -27,5 +33,11 @@ export const Config: Configuration = {
   jwt: {
     cookieName: process.env.JWT_COOKIE_NAME || 'shopToken',
     secret: process.env.JWT_SECRET || 'secret'
+  },
+  aws: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID || '',
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || '',
+    s3Bucket: process.env.AWS_S3_BUCKET || '',
+    region: process.env.AWS_REGION || 'eu-west-1'
   }
 };

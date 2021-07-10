@@ -5,6 +5,8 @@ import { CustomerRepository } from '../repositories/CustomerRepository';
 import { ServiceException } from './exceptions/ServiceException';
 import { CustomerUpdateRequest } from '../requests/CustomerUpdateRequest';
 import { ModelId } from '../models/Base';
+import { ReadStream } from 'fs';
+import { S3Service } from './S3Service';
 
 export interface CustomerCreateRequest {
   id: string;
@@ -16,7 +18,8 @@ export interface CustomerCreateRequest {
 @injectable()
 export class CustomerService {
 
-  constructor(@inject(TYPES.CustomerRepository) private customerRepository: CustomerRepository) {
+  constructor(@inject(TYPES.CustomerRepository) private customerRepository: CustomerRepository,
+    @inject(TYPES.S3Service) private s3Service: S3Service) {
   }
 
   async getAllCustomers(): Promise<Customer[]> {
@@ -29,6 +32,7 @@ export class CustomerService {
       throw new ServiceException('The customer not exists');
     }
 
+    // TODO: transform the s3key (customer.image) to url
     return customer;
   }
 
@@ -61,4 +65,15 @@ export class CustomerService {
     }
   }
 
+  async uploadPhoto(id: string, photo: ReadStream) {
+    const existingCustomer = await this.customerRepository.findOne({ id });
+
+    if (!existingCustomer) {
+      throw new ServiceException('The customer not exists');
+    }
+
+    const s3Key = await this.s3Service.upload(`customers/${existingCustomer._id}`, photo);
+    console.log(s3Key);
+    // await this.customerRepository.update(existingCustomer._id, { image: s3Key });
+  }
 }

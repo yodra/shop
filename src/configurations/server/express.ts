@@ -7,7 +7,7 @@ import '../../controllers/UserController';
 import '../../controllers/CustomerController';
 import { ClientException } from '../../exceptions/ClientException';
 import cookieParser from 'cookie-parser';
-
+import fileUpload from 'express-fileupload';
 
 const errorHandler = (error: Error, _, response, next) => {
   if (error) {
@@ -15,6 +15,7 @@ const errorHandler = (error: Error, _, response, next) => {
       response.status(error.httpCode).json({ error: error.message });
       return;
     }
+    console.error(error);
     response.status(500).json('Something was broke!');
     return;
   }
@@ -29,6 +30,12 @@ export const configureServer = (container: Container) => {
     }));
     app.use(bodyParser.json());
     app.use(cookieParser());
+    app.use(fileUpload({
+      limits: { fileSize: 10 * 1024 * 1024 },
+
+      useTempFiles: true,
+      tempFileDir: '/tmp/'
+    }));
   });
 
   server.setErrorConfig((app) => {

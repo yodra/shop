@@ -17,6 +17,7 @@ import { Customer } from '../models/Customer';
 import { assertBodyHasSeveralFields } from './utils/assertions';
 import { CustomerUpdateRequest } from '../requests/CustomerUpdateRequest';
 import { AuthRequest } from '../configurations/server/middleware/security/utils';
+import fs from 'fs';
 
 @controller('/customer', TYPES.Authentication)
 export class CustomerController implements interfaces.Controller {
@@ -60,4 +61,12 @@ export class CustomerController implements interfaces.Controller {
     await this.customerService.removeCustomer(id);
   }
 
+  @httpPut('/photo/:id')
+  async addPhoto(@requestParam('id') id: string, @request() request: any) {
+    // TODO assertHasFile()
+    // TODO assertIsPhoto() png, jpeg
+    const photo = fs.createReadStream(request.files.file.tempFilePath);
+    await this.customerService.uploadPhoto(id, photo);
+    console.log(id);
+  }
 }
