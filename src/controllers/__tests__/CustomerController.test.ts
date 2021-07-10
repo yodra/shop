@@ -90,7 +90,7 @@ describe('CustomerController', () => {
         .send({ ...baseCustomer });
 
       expect(customerServiceMock.createCustomer).toBeCalledWith({
-        businessId: 'businessId',
+        id: 'businessId',
         name: 'Ana',
         lastname: 'Morales'
       });

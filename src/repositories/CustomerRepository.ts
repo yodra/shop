@@ -21,7 +21,4 @@ export class CustomerRepository extends BaseRepository<Customer> {
     await this.updateOne(id, customer);
   }
 
-  async delete(id) {
-    await this.deleteOne(id);
-  }
 }

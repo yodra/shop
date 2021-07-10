@@ -6,7 +6,7 @@ import { ServiceException } from './exceptions/ServiceException';
 import { CustomerUpdateRequest } from '../requests/CustomerUpdateRequest';
 
 export interface CustomerCreateRequest {
-  businessId: string;
+  id: string;
   name: string;
   lastname: string;
 }
@@ -32,7 +32,7 @@ export class CustomerService {
 
   async createCustomer(request: CustomerCreateRequest) {
     const existingCustomer = await this.customerRepository.findOne({
-      businessId: request.businessId,
+      id: request.id,
       name: request.name,
       lastname: request.lastname
     });
@@ -42,7 +42,7 @@ export class CustomerService {
     }
 
     await this.customerRepository.insert({
-      id: request.businessId,
+      id: request.id,
       name: request.name,
       lastname: request.lastname
     });
@@ -55,14 +55,17 @@ export class CustomerService {
       throw new ServiceException('The customer not exists');
     }
 
-    await this.customerRepository.update(id, {
+    await this.customerRepository.update(existingCustomer._id, {
       name: request.name,
       lastname: request.lastname
     });
   }
 
   async removeCustomer(id: string) {
-    await this.customerRepository.delete(id);
+    const customer = await this.customerRepository.findOne({ id });
+    if (customer) {
+      await this.customerRepository.deleteOne(customer._id);
+    }
   }
 
 }

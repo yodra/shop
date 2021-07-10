@@ -38,7 +38,7 @@ export class CustomerController implements interfaces.Controller {
 
     // TODO: Extract from session the userId
     await this.customerService.createCustomer({
-      businessId: body.id,
+      id: body.id,
       name: body.name,
       lastname: body.lastname
     });

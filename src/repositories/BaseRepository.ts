@@ -1,6 +1,7 @@
 import { injectable, unmanaged } from 'inversify';
 import { Db, ObjectId } from 'mongodb';
 import { MongoDBConnection } from '../configurations/mongodb/MongoDBConnection';
+import { ModelId } from '../models/Base';
 
 @injectable()
 export class BaseRepository<T> {
@@ -20,11 +21,11 @@ export class BaseRepository<T> {
     return this.getCollection().find({ ...filter, deletedAt: { $exists: false } }).toArray();
   }
 
-  findOne(filter: Object): Promise<T> {
+  findOne(filter: Object): Promise<T | undefined> {
     return this.getCollection().findOne({ ...filter, deletedAt: { $exists: false } });
   }
 
-  findById(id: string): Promise<T> {
+  findById(id: ModelId): Promise<T | undefined> {
     return this.findOne({ _id: new ObjectId(id), deletedAt: { $exists: false } });
   }
 
@@ -37,7 +38,7 @@ export class BaseRepository<T> {
     return result.ops[0];
   }
 
-  async deleteOne(id: string) {
+  async deleteOne(id: ModelId) {
     await this.getCollection().findOneAndUpdate({ _id: new ObjectId(id) }, {
       $set: {
         updatedAt: new Date(),

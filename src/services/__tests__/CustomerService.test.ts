@@ -4,7 +4,7 @@ import { CustomerRepository } from '../../repositories/CustomerRepository';
 const customerRepositoryMock: Partial<CustomerRepository> = {
   findAll: () => Promise.resolve([]),
   insert: jest.fn(),
-  delete: jest.fn(),
+  deleteOne: jest.fn(),
   update: jest.fn(),
   findOne: jest.fn(),
   findById: jest.fn()
@@ -89,10 +89,10 @@ describe('CustomerService', () => {
     });
 
     it('should call to findOne on CustomerRepository', async () => {
-      await customerService.createCustomer({ businessId: 'businessId', name: 'Ana', lastname: 'Morales' });
+      await customerService.createCustomer({ id: 'businessId', name: 'Ana', lastname: 'Morales' });
 
       expect(customerRepositoryMock.findOne).toBeCalledWith({
-        businessId: 'businessId',
+        id: 'businessId',
         name: 'Ana',
         lastname: 'Morales'
       });
@@ -101,23 +101,37 @@ describe('CustomerService', () => {
     it('should returns an exception when the customer already exist', async () => {
       customerRepositoryMock.findOne = jest.fn().mockReturnValue({});
 
-      await expect(customerService.createCustomer({ businessId: 'businessId', name: 'Ana', lastname: 'Morales' }))
+      await expect(customerService.createCustomer({ id: 'businessId', name: 'Ana', lastname: 'Morales' }))
         .rejects
         .toThrowError('The customer already exists');
     });
 
     it('should call to insert on CustomerRepository', async () => {
-      await customerService.createCustomer({ businessId: 'businessId', name: 'Ana', lastname: 'Morales' });
+      await customerService.createCustomer({ id: 'businessId', name: 'Ana', lastname: 'Morales' });
 
       expect(customerRepositoryMock.insert).toBeCalled();
     });
   });
 
   describe('removeCustomer', () => {
-    it('should call to delete on CustomerRepository', async function () {
-      await customerService.removeCustomer('irrelevant');
+    beforeEach(() => {
+      customerRepositoryMock.deleteOne = jest.fn();
+    });
 
-      expect(customerRepositoryMock.delete).toBeCalled();
+    it('should remove a Customer if exists', async () => {
+      customerRepositoryMock.findOne = jest.fn().mockReturnValue({ _id: '1' });
+
+      await customerService.removeCustomer('businessId');
+
+      expect(customerRepositoryMock.deleteOne).toBeCalledWith('1');
+    });
+
+    it('should not remove a Customer if not exists', async () => {
+      customerRepositoryMock.findOne = jest.fn().mockReturnValue(undefined);
+
+      await customerService.removeCustomer('businessId');
+
+      expect(customerRepositoryMock.deleteOne).not.toBeCalled();
     });
   });
 

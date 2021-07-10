@@ -1,4 +1,4 @@
-type ModelId = string;
+export type ModelId = string;
 
 export interface Base {
   _id: ModelId;
