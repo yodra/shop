@@ -38,25 +38,27 @@ describe('CustomerController', () => {
   });
 
   describe('getCustomer', () => {
-    it('should to get status response 200', async () => {
+    it('should get a customer by id', async () => {
       customerServiceMock.getCustomer = jest.fn().mockReturnValue({});
 
       await request(server)
-        .get('/customer/551137c2f9e1fac808a5f572')
+        .get('/customer/11111111H')
+        .set('Cookie', userTokenMocked)
         .expect(200);
     });
 
-    it('should return an exception when the id is not a ObjectId', async () => {
+    it('should not get a customer for anonymous user', async () => {
       await request(server)
-        .get('/customer/1')
-        .expect(400);
+        .get('/customer/11111111H')
+        .expect(403);
     });
 
     it('should call to getCustomer on CustomerService', async () => {
       await request(server)
-        .get('/customer/551137c2f9e1fac808a5f572');
+        .get('/customer/11111111H')
+        .set('Cookie', userTokenMocked);
 
-      expect(customerServiceMock.getCustomer).toBeCalledWith('551137c2f9e1fac808a5f572');
+      expect(customerServiceMock.getCustomer).toBeCalledWith('11111111H');
     });
   });
 
@@ -66,6 +68,7 @@ describe('CustomerController', () => {
     it('should create a new customer', async () => {
       await request(server)
         .post('/customer')
+        .set('Cookie', userTokenMocked)
         .send(baseCustomer)
         .expect(204);
     });
@@ -73,6 +76,7 @@ describe('CustomerController', () => {
     it('should returns an exception when the customer business id is not provided', async () => {
       await request(server)
         .post('/customer')
+        .set('Cookie', userTokenMocked)
         .send({ ...baseCustomer, id: undefined })
         .expect(400);
     });
@@ -80,6 +84,7 @@ describe('CustomerController', () => {
     it('should returns an exception when the customer name is not provided', async () => {
       await request(server)
         .post('/customer')
+        .set('Cookie', userTokenMocked)
         .send({ ...baseCustomer, name: undefined })
         .expect(400);
     });
@@ -87,13 +92,22 @@ describe('CustomerController', () => {
     it('should returns an exception when the customer lastname is not provided', async () => {
       await request(server)
         .post('/customer')
+        .set('Cookie', userTokenMocked)
         .send({ ...baseCustomer, lastname: undefined })
         .expect(400);
+    });
+
+    it('should not create a new customer for anonymous user', async () => {
+      await request(server)
+        .post('/customer')
+        .send({ ...baseCustomer })
+        .expect(403);
     });
 
     it('should call to createCustomer on CustomerService', async () => {
       await request(server)
         .post('/customer')
+        .set('Cookie', userTokenMocked)
         .send({ ...baseCustomer });
 
       expect(customerServiceMock.createCustomer).toBeCalledWith({
@@ -105,58 +119,70 @@ describe('CustomerController', () => {
   });
 
   describe('removeCustomer', () => {
-    it('should to get status response 204', async () => {
+    it('should remove a customer by id', async () => {
       await request(server)
-        .delete('/customer/551137c2f9e1fac808a5f572')
+        .delete('/customer/11111111H')
+        .set('Cookie', userTokenMocked)
         .expect(204);
     });
 
-    it('should return an exception when the id is not a ObjectId', async () => {
+    it('should not remove a customer for anonymous user', async () => {
       await request(server)
-        .delete('/customer/1')
-        .expect(400);
+        .delete('/customer/11111111H')
+        .expect(403);
     });
-
   });
 
   describe('updateCustomer', () => {
     const baseCustomer = { name: 'Ana', lastname: 'Morales' };
 
-    it('should to get status response 204', async () => {
+    it('should update a customer by id', async () => {
       await request(server)
-        .put('/customer/551137c2f9e1fac808a5f572')
+        .put('/customer/11111111H')
+        .set('Cookie', userTokenMocked)
         .send(baseCustomer)
         .expect(204);
     });
 
-    it('should return an exception when the id is not a ObjectId', async () => {
-      await request(server)
-        .put('/customer/1')
-        .send(baseCustomer)
-        .expect(400);
-    });
-
     it('should return an exception when the customer name is not provided', async () => {
       await request(server)
-        .put('/customer/551137c2f9e1fac808a5f572')
+        .put('/customer/11111111H')
+        .set('Cookie', userTokenMocked)
         .send({ ...baseCustomer, name: undefined })
         .expect(400);
     });
 
     it('should return an exception when the customer lastname is not provided', async () => {
       await request(server)
-        .put('/customer/551137c2f9e1fac808a5f572')
+        .put('/customer/11111111H')
+        .set('Cookie', userTokenMocked)
         .send({ ...baseCustomer, lastname: undefined })
         .expect(400);
     });
 
+    it('should not update the id of a customer', async () => {
+      await request(server)
+        .put('/customer/11111111H')
+        .set('Cookie', userTokenMocked)
+        .send({ ...baseCustomer, id: '22222222P' });
+
+      expect(customerServiceMock.updateCustomer).toBeCalledWith('11111111H', baseCustomer);
+    });
+
     it('should call to updateCustomer on CustomerService', async () => {
       await request(server)
-        .put('/customer/551137c2f9e1fac808a5f572')
+        .put('/customer/11111111H')
+        .set('Cookie', userTokenMocked)
         .send(baseCustomer);
 
-      expect(customerServiceMock.updateCustomer).toBeCalledWith('551137c2f9e1fac808a5f572', baseCustomer);
+      expect(customerServiceMock.updateCustomer).toBeCalledWith('11111111H', baseCustomer);
+    });
+
+    it('should not update a customer for anonymous user', async () => {
+      await request(server)
+        .put('/customer/11111111H')
+        .send(baseCustomer)
+        .expect(403);
     });
   });
-})
-;
+});

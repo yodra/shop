@@ -15,7 +15,7 @@ import { User } from '../models/User';
 import { assertBodyHasSeveralFields, assertObjectId } from './utils/assertions';
 import { UserUpdateRequest } from '../requests/UserUpdateRequest';
 
-@controller('/user')
+@controller('/user', TYPES.OnlyAdmin)
 export class UserController implements interfaces.Controller {
 
   constructor(@inject(TYPES.UserService) private userService: UserService) {

@@ -4,7 +4,8 @@ import { TYPES } from '../constants/types';
 import { UserRepository } from '../repositories/UserRepository';
 import { CustomerService } from '../services/CustomerService';
 import { CustomerRepository } from '../repositories/CustomerRepository';
-import { Authentication } from './server/middleware/Authentication';
+import { Authentication } from './server/middleware/security/Authentication';
+import { OnlyAdmin } from './server/middleware/security/OnlyAdmin';
 
 export const initializeContainer = (): Container => {
   const container = new Container();
@@ -28,4 +29,5 @@ const initializeRepositoriesContainer = () => new ContainerModule((bind: interfa
 
 export const initializeOthersContainer = () => new ContainerModule((bind: interfaces.Bind) => {
   bind<Authentication>(TYPES.Authentication).to(Authentication);
+  bind<OnlyAdmin>(TYPES.OnlyAdmin).to(OnlyAdmin);
 });

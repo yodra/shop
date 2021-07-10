@@ -3,5 +3,6 @@ export const TYPES = {
   UserRepository: Symbol.for('UserRepository'),
   CustomerService: Symbol.for('CustomerService'),
   CustomerRepository: Symbol.for('CustomerRepository'),
-  Authentication: Symbol.for('Authentication')
+  Authentication: Symbol.for('Authentication'),
+  OnlyAdmin: Symbol.for('OnlyAdmin')
 };

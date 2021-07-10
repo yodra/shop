@@ -12,23 +12,22 @@ import { inject } from 'inversify';
 import { TYPES } from '../constants/types';
 import { CustomerService } from '../services/CustomerService';
 import { Customer } from '../models/Customer';
-import { assertBodyHasSeveralFields, assertObjectId } from './utils/assertions';
+import { assertBodyHasSeveralFields } from './utils/assertions';
 import { CustomerUpdateRequest } from '../requests/CustomerUpdateRequest';
 
-@controller('/customer')
+@controller('/customer', TYPES.Authentication)
 export class CustomerController implements interfaces.Controller {
 
   constructor(@inject(TYPES.CustomerService) private customerService: CustomerService) {
   }
 
-  @httpGet('/', TYPES.Authentication)
+  @httpGet('/')
   async getAllCustomers(): Promise<Customer[]> {
     return this.customerService.getAllCustomers();
   }
 
   @httpGet('/:id')
   async getCustomer(@requestParam('id') id: string): Promise<Customer> {
-    assertObjectId(id);
     return this.customerService.getCustomer(id);
   }
 
@@ -46,7 +45,6 @@ export class CustomerController implements interfaces.Controller {
 
   @httpPut('/:id')
   async updateCustomer(@requestParam('id') id: string, @requestBody() body: any) {
-    assertObjectId(id);
     assertBodyHasSeveralFields(body, ['name', 'lastname']);
 
     // TODO: Extract from session the userId
@@ -56,7 +54,6 @@ export class CustomerController implements interfaces.Controller {
 
   @httpDelete('/:id')
   async removeCustomer(@requestParam('id') id: string) {
-    assertObjectId(id);
     await this.customerService.removeCustomer(id);
   }
 
