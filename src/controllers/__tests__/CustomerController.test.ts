@@ -1,4 +1,4 @@
-import { getTestServer, initializeTestContainer } from '../../../config/jest/after';
+import { getTestServer, initializeTestContainer, userTokenMocked } from '../../../config/jest/after';
 import request from 'supertest';
 import { TYPES } from '../../constants/types';
 import { CustomerService } from '../../services/CustomerService';
@@ -21,12 +21,19 @@ describe('CustomerController', () => {
   });
 
   describe('getCustomers', () => {
-    it('should to get status response 200', async () => {
+    it('should get a list of customers', async () => {
       customerServiceMock.getAllCustomers = jest.fn().mockReturnValue([]);
 
       await request(server)
         .get('/customer')
+        .set('Cookie', userTokenMocked)
         .expect(200);
+    });
+
+    it('should not get a list of customers for anonymous user', async () => {
+      await request(server)
+        .get('/customer')
+        .expect(403);
     });
   });
 

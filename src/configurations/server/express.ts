@@ -6,6 +6,8 @@ import { Config } from '../Config';
 import '../../controllers/UserController';
 import '../../controllers/CustomerController';
 import { ClientException } from '../../exceptions/ClientException';
+import cookieParser from 'cookie-parser';
+
 
 const errorHandler = (error: Error, _, response, next) => {
   if (error) {
@@ -26,6 +28,7 @@ export const configureServer = (container: Container) => {
       extended: true
     }));
     app.use(bodyParser.json());
+    app.use(cookieParser());
   });
 
   server.setErrorConfig((app) => {

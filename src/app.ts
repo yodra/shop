@@ -1,5 +1,4 @@
 import 'reflect-metadata';
-import './controllers/UserController';
 import { initializeMongoDb } from './configurations/mongodb/MongoDBConnection';
 import { initializeServer } from './configurations/server/express';
 import { initializeContainer } from './configurations/ioc';

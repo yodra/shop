@@ -21,7 +21,7 @@ export class CustomerController implements interfaces.Controller {
   constructor(@inject(TYPES.CustomerService) private customerService: CustomerService) {
   }
 
-  @httpGet('/')
+  @httpGet('/', TYPES.Authentication)
   async getAllCustomers(): Promise<Customer[]> {
     return this.customerService.getAllCustomers();
   }
