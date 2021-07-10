@@ -128,6 +128,7 @@ describe('UserController', () => {
         .expect(400);
     });
 
+    // TODO this change in other endpoint
     it('should return an exception when the user isAdmin is not provided', async () => {
       await request(server)
         .put('/user/551137c2f9e1fac808a5f572')

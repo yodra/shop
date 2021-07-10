@@ -5,6 +5,8 @@ import {
   httpPost,
   httpPut,
   interfaces,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  request,
   requestBody,
   requestParam
 } from 'inversify-express-utils';
@@ -14,6 +16,7 @@ import { CustomerService } from '../services/CustomerService';
 import { Customer } from '../models/Customer';
 import { assertBodyHasSeveralFields } from './utils/assertions';
 import { CustomerUpdateRequest } from '../requests/CustomerUpdateRequest';
+import { AuthRequest } from '../configurations/server/middleware/security/utils';
 
 @controller('/customer', TYPES.Authentication)
 export class CustomerController implements interfaces.Controller {
@@ -32,24 +35,24 @@ export class CustomerController implements interfaces.Controller {
   }
 
   @httpPost('/')
-  async createCustomer(@requestBody() body: any) {
+  async createCustomer(@request() request: AuthRequest, @requestBody() body: any) {
     assertBodyHasSeveralFields(body, ['id', 'name', 'lastname']);
+    const idUserAuth = request.user.id;
 
-    // TODO: Extract from session the userId
     await this.customerService.createCustomer({
       id: body.id,
       name: body.name,
-      lastname: body.lastname
+      lastname: body.lastname,
+      createdBy: idUserAuth
     });
   }
 
   @httpPut('/:id')
-  async updateCustomer(@requestParam('id') id: string, @requestBody() body: any) {
+  async updateCustomer(@request() request: AuthRequest, @requestParam('id') id: string, @requestBody() body: any) {
     assertBodyHasSeveralFields(body, ['name', 'lastname']);
+    const idUserAuth = request.user.id;
 
-    // TODO: Extract from session the userId
-    const request = CustomerUpdateRequest.build(body);
-    await this.customerService.updateCustomer(id, request);
+    await this.customerService.updateCustomer(id, CustomerUpdateRequest.build(body, idUserAuth));
   }
 
   @httpDelete('/:id')

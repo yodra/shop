@@ -1,5 +1,6 @@
-import { CustomerService } from '../CustomerService';
+import { CustomerCreateRequest, CustomerService } from '../CustomerService';
 import { CustomerRepository } from '../../repositories/CustomerRepository';
+import { CustomerUpdateRequest } from '../../requests/CustomerUpdateRequest';
 
 const customerRepositoryMock: Partial<CustomerRepository> = {
   findAll: () => Promise.resolve([]),
@@ -22,13 +23,15 @@ describe('CustomerService', () => {
         name: 'aName',
         lastname: 'aLastname',
         image: 'aUrlImage',
-        createdAt: date
+        createdAt: date,
+        createdBy: '551137c2f9e1fac808a5f572'
       }, {
         _id: 'mongoId2',
         id: 'aId2',
         name: 'aName',
         lastname: 'aLastname',
-        createdAt: date
+        createdAt: date,
+        createdBy: '551137c2f9e1fac808a5f572'
       }]);
 
       // TODO: Create Response
@@ -38,13 +41,15 @@ describe('CustomerService', () => {
         name: 'aName',
         lastname: 'aLastname',
         image: 'aUrlImage',
-        createdAt: date
+        createdAt: date,
+        createdBy: '551137c2f9e1fac808a5f572'
       }, {
         _id: 'mongoId2',
         id: 'aId2',
         name: 'aName',
         lastname: 'aLastname',
-        createdAt: date
+        createdAt: date,
+        createdBy: '551137c2f9e1fac808a5f572'
       }]);
     });
   });
@@ -60,7 +65,8 @@ describe('CustomerService', () => {
           name: 'aName',
           lastname: 'aLastname',
           image: 'aUrlImage',
-          createdAt: date
+          createdAt: date,
+          createdBy: '551137c2f9e1fac808a5f572'
         });
       };
 
@@ -70,7 +76,8 @@ describe('CustomerService', () => {
         name: 'aName',
         lastname: 'aLastname',
         image: 'aUrlImage',
-        createdAt: date
+        createdAt: date,
+        createdBy: '551137c2f9e1fac808a5f572'
       });
     });
 
@@ -84,30 +91,33 @@ describe('CustomerService', () => {
   });
 
   describe('createCustomer', () => {
+    const createRequest: CustomerCreateRequest = {
+      id: 'businessId',
+      name: 'Ana',
+      lastname: 'Morales',
+      createdBy: '551137c2f9e1fac808a5f572'
+    };
+
     beforeEach(() => {
       customerRepositoryMock.findOne = jest.fn();
     });
 
     it('should call to findOne on CustomerRepository', async () => {
-      await customerService.createCustomer({ id: 'businessId', name: 'Ana', lastname: 'Morales' });
+      await customerService.createCustomer(createRequest);
 
-      expect(customerRepositoryMock.findOne).toBeCalledWith({
-        id: 'businessId',
-        name: 'Ana',
-        lastname: 'Morales'
-      });
+      expect(customerRepositoryMock.findOne).toBeCalledWith({ id: 'businessId' });
     });
 
     it('should returns an exception when the customer already exist', async () => {
       customerRepositoryMock.findOne = jest.fn().mockReturnValue({});
 
-      await expect(customerService.createCustomer({ id: 'businessId', name: 'Ana', lastname: 'Morales' }))
+      await expect(customerService.createCustomer(createRequest))
         .rejects
         .toThrowError('The customer already exists');
     });
 
     it('should call to insert on CustomerRepository', async () => {
-      await customerService.createCustomer({ id: 'businessId', name: 'Ana', lastname: 'Morales' });
+      await customerService.createCustomer(createRequest);
 
       expect(customerRepositoryMock.insert).toBeCalled();
     });
@@ -136,7 +146,11 @@ describe('CustomerService', () => {
   });
 
   describe('updateCustomer', () => {
-    const baseCustomer = { name: 'Ana', lastname: 'Morales' };
+    const updateRequest: CustomerUpdateRequest = {
+      name: 'Ana',
+      lastname: 'Morales',
+      lastUpdatedBy: '551137c2f9e1fac808a5f572'
+    };
 
     beforeEach(() => {
       customerRepositoryMock.update = jest.fn();
@@ -146,7 +160,7 @@ describe('CustomerService', () => {
     it('should returns an exception when the customer not exist', async () => {
       customerRepositoryMock.findOne = jest.fn().mockReturnValue(undefined);
 
-      await expect(customerService.updateCustomer('1', baseCustomer))
+      await expect(customerService.updateCustomer('1', updateRequest))
         .rejects
         .toThrowError('The customer not exists');
     });
@@ -154,7 +168,7 @@ describe('CustomerService', () => {
     it('should update the customer when exists', async () => {
       customerRepositoryMock.findOne = jest.fn().mockReturnValue({});
 
-      await customerService.updateCustomer('1', baseCustomer);
+      await customerService.updateCustomer('1', updateRequest);
 
       expect(customerRepositoryMock.update).toBeCalled();
     });

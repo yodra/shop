@@ -113,7 +113,8 @@ describe('CustomerController', () => {
       expect(customerServiceMock.createCustomer).toBeCalledWith({
         id: 'businessId',
         name: 'Ana',
-        lastname: 'Morales'
+        lastname: 'Morales',
+        createdBy: '551137c2f9e1fac808a5f572'
       });
     });
   });
@@ -166,7 +167,10 @@ describe('CustomerController', () => {
         .set('Cookie', userTokenMocked)
         .send({ ...baseCustomer, id: '22222222P' });
 
-      expect(customerServiceMock.updateCustomer).toBeCalledWith('11111111H', baseCustomer);
+      expect(customerServiceMock.updateCustomer).toBeCalledWith('11111111H', {
+        ...baseCustomer,
+        lastUpdatedBy: '551137c2f9e1fac808a5f572'
+      });
     });
 
     it('should call to updateCustomer on CustomerService', async () => {
@@ -175,7 +179,10 @@ describe('CustomerController', () => {
         .set('Cookie', userTokenMocked)
         .send(baseCustomer);
 
-      expect(customerServiceMock.updateCustomer).toBeCalledWith('11111111H', baseCustomer);
+      expect(customerServiceMock.updateCustomer).toBeCalledWith('11111111H', {
+        ...baseCustomer,
+        lastUpdatedBy: '551137c2f9e1fac808a5f572'
+      });
     });
 
     it('should not update a customer for anonymous user', async () => {

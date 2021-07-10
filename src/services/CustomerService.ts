@@ -4,11 +4,13 @@ import { TYPES } from '../constants/types';
 import { CustomerRepository } from '../repositories/CustomerRepository';
 import { ServiceException } from './exceptions/ServiceException';
 import { CustomerUpdateRequest } from '../requests/CustomerUpdateRequest';
+import { ModelId } from '../models/Base';
 
 export interface CustomerCreateRequest {
   id: string;
   name: string;
   lastname: string;
+  createdBy: ModelId;
 }
 
 @injectable()
@@ -32,20 +34,14 @@ export class CustomerService {
 
   async createCustomer(request: CustomerCreateRequest) {
     const existingCustomer = await this.customerRepository.findOne({
-      id: request.id,
-      name: request.name,
-      lastname: request.lastname
+      id: request.id
     });
 
     if (existingCustomer) {
       throw new ServiceException('The customer already exists');
     }
 
-    await this.customerRepository.insert({
-      id: request.id,
-      name: request.name,
-      lastname: request.lastname
-    });
+    await this.customerRepository.insert({ ...request });
   }
 
   async updateCustomer(id: string, request: CustomerUpdateRequest) {
@@ -55,10 +51,7 @@ export class CustomerService {
       throw new ServiceException('The customer not exists');
     }
 
-    await this.customerRepository.update(existingCustomer._id, {
-      name: request.name,
-      lastname: request.lastname
-    });
+    await this.customerRepository.update(existingCustomer._id, { ...request });
   }
 
   async removeCustomer(id: string) {
