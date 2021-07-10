@@ -49,7 +49,7 @@ export class CustomerService {
   }
 
   async updateCustomer(id: string, request: CustomerUpdateRequest) {
-    const existingCustomer = await this.customerRepository.findById(id);
+    const existingCustomer = await this.customerRepository.findOne({ id });
 
     if (!existingCustomer) {
       throw new ServiceException('The customer not exists');
