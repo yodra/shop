@@ -33,7 +33,7 @@ export class BaseRepository<T> {
     const result = await this.getCollection().insertOne({
       ...document,
       createAt: new Date(),
-      updatedAt: new Date()
+      lastUpdatedAt: new Date()
     });
     return result.ops[0];
   }
@@ -41,7 +41,7 @@ export class BaseRepository<T> {
   async deleteOne(id: ModelId) {
     await this.getCollection().findOneAndUpdate({ _id: new ObjectId(id) }, {
       $set: {
-        updatedAt: new Date(),
+        lastUpdatedAt: new Date(),
         deletedAt: new Date()
       }
     });
@@ -51,7 +51,7 @@ export class BaseRepository<T> {
     await this.getCollection().findOneAndUpdate({ _id: new ObjectId(id) }, {
       $set: {
         ...document,
-        updatedAt: new Date()
+        lastUpdatedAt: new Date()
       }
     });
   }
