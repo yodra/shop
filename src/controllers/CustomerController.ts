@@ -13,11 +13,12 @@ import {
 import { inject } from 'inversify';
 import { TYPES } from '../constants/types';
 import { CustomerService } from '../services/CustomerService';
-import { assertBodyHasSeveralFields } from './utils/assertions';
+import { assertBodyHasSeveralFields, assertIsFormat, assertRequestHasFiles } from './utils/assertions';
 import { CustomerUpdateRequest } from '../requests/CustomerUpdateRequest';
 import { AuthRequest } from '../configurations/server/middleware/security/utils';
-import fs from 'fs';
 import { CustomerResponse, toResponse, toResponseList } from '../responses/CustomerResponse';
+import * as fs from 'fs';
+
 
 @controller('/customer', TYPES.Authentication)
 export class CustomerController implements interfaces.Controller {
@@ -65,9 +66,9 @@ export class CustomerController implements interfaces.Controller {
 
   @httpPut('/photo/:id')
   async addPhoto(@requestParam('id') id: string, @request() request: any) {
-    // TODO assertHasFile()
-    // TODO assertIsPhoto() png, jpeg
-    const photo = fs.createReadStream(request.files.file.tempFilePath);
+    assertRequestHasFiles(request.files);
+    assertIsFormat(request.files.photo);
+    const photo = fs.createReadStream(request.files.photo.tempFilePath);
     await this.customerService.uploadPhoto(id, photo);
   }
 }

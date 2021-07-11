@@ -14,3 +14,15 @@ export const assertObjectId = (id: string) => {
     throw new ControllerClientException('The id is not correct!');
   }
 };
+
+export const assertRequestHasFiles = (files: any) => {
+  if (!files) {
+    throw new ControllerClientException('The photo is mandatory');
+  }
+};
+
+export const assertIsFormat = (photo: any) => {
+  if (photo.mimetype !== 'image/png' && photo.mimetype !== 'image/jpg') {
+    throw new ControllerClientException('The type of photo is invalid');
+  }
+};

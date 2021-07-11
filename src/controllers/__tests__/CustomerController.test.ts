@@ -9,7 +9,8 @@ const customerServiceMock: Partial<CustomerService> = {
   create: jest.fn(),
   remove: jest.fn(),
   update: jest.fn(),
-  get: jest.fn()
+  get: jest.fn(),
+  uploadPhoto: jest.fn()
 };
 
 describe('CustomerController', () => {
@@ -207,6 +208,38 @@ describe('CustomerController', () => {
         .put('/customer/11111111H')
         .send(baseCustomer)
         .expect(403);
+    });
+  });
+
+  describe('addPhoto', () => {
+    it('should upload a new photo for a customer', async function () {
+      await request(server)
+        .put('/customer/photo/11111111H')
+        .attach('photo', 'config/mocks/150.png')
+        .set('Cookie', userTokenMocked)
+        .expect(204);
+    });
+
+    it('should return an exception when photo is not provided', async function () {
+      await request(server)
+        .put('/customer/photo/11111111H')
+        .set('Cookie', userTokenMocked)
+        .send({ files: null })
+        .expect(400);
+    });
+
+    it('should return an exception when the type of photo is invalid', async function () {
+      await request(server)
+        .put('/customer/photo/11111111H')
+        .set('Cookie', userTokenMocked)
+        .send({
+          files: {
+            file: {
+              mimetype: 'image/gif'
+            }
+          }
+        })
+        .expect(400);
     });
   });
 });
