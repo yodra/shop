@@ -27,12 +27,12 @@ export class CustomerService {
   }
 
   async getCustomer(id: string): Promise<Customer> {
-    const customer = await this.customerRepository.findById(id);
+    const customer = await this.customerRepository.findOne({ id });
+
     if (!customer) {
       throw new ServiceException('The customer not exists');
     }
 
-    // TODO: transform the s3key (customer.image) to url
     return customer;
   }
 
@@ -72,8 +72,7 @@ export class CustomerService {
       throw new ServiceException('The customer not exists');
     }
 
-    const s3Key = await this.s3Service.upload(`customers/${existingCustomer._id}`, photo);
-    console.log(s3Key);
-    // await this.customerRepository.update(existingCustomer._id, { image: s3Key });
+    const photoKey = await this.s3Service.upload(`customers/${existingCustomer._id}`, photo);
+    await this.customerRepository.update(existingCustomer._id, { photo: photoKey });
   }
 }

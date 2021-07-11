@@ -16,7 +16,7 @@ export class S3Service {
     });
   }
 
-  async upload(filePath: string, file: ReadStream) {
+  async upload(filePath: string, file: ReadStream): Promise<string> {
     return new Promise((resolve, reject) => {
       const params: S3.Types.PutObjectRequest = {
         Bucket: Config.aws.s3Bucket,
@@ -29,7 +29,7 @@ export class S3Service {
         if (error) {
           reject(error);
         } else {
-          resolve(data);
+          resolve(data.Key);
         }
       });
     });

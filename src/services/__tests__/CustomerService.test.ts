@@ -7,12 +7,11 @@ const customerRepositoryMock: Partial<CustomerRepository> = {
   insert: jest.fn(),
   deleteOne: jest.fn(),
   update: jest.fn(),
-  findOne: jest.fn(),
-  findById: jest.fn()
+  findOne: jest.fn()
 };
 
 describe('CustomerService', () => {
-  const customerService = new CustomerService(customerRepositoryMock as any);
+  const customerService = new CustomerService(customerRepositoryMock as any, {} as any);
 
   describe('getAllCustomers', () => {
     it('should return a Customer list', async function () {
@@ -22,7 +21,7 @@ describe('CustomerService', () => {
         id: 'aId1',
         name: 'aName',
         lastname: 'aLastname',
-        image: 'aUrlImage',
+        photo: 'aUrlImage',
         createdAt: date,
         createdBy: '551137c2f9e1fac808a5f572'
       }, {
@@ -40,7 +39,7 @@ describe('CustomerService', () => {
         id: 'aId1',
         name: 'aName',
         lastname: 'aLastname',
-        image: 'aUrlImage',
+        photo: 'aUrlImage',
         createdAt: date,
         createdBy: '551137c2f9e1fac808a5f572'
       }, {
@@ -58,13 +57,13 @@ describe('CustomerService', () => {
     // TODO create Response
     it('should return a Customer', async function () {
       const date = new Date();
-      customerRepositoryMock.findById = () => {
+      customerRepositoryMock.findOne = () => {
         return Promise.resolve({
           _id: 'mongoId',
           id: '1',
           name: 'aName',
           lastname: 'aLastname',
-          image: 'aUrlImage',
+          photo: 'aUrlImage',
           createdAt: date,
           createdBy: '551137c2f9e1fac808a5f572'
         });
@@ -75,14 +74,14 @@ describe('CustomerService', () => {
         id: '1',
         name: 'aName',
         lastname: 'aLastname',
-        image: 'aUrlImage',
+        photo: 'aUrlImage',
         createdAt: date,
         createdBy: '551137c2f9e1fac808a5f572'
       });
     });
 
     it('should returns an exception when the customer not exist', async () => {
-      customerRepositoryMock.findById = jest.fn().mockReturnValue(undefined);
+      customerRepositoryMock.findOne = jest.fn().mockReturnValue(undefined);
 
       await expect(customerService.getCustomer('1'))
         .rejects

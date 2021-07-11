@@ -13,7 +13,7 @@ import {
 import { inject } from 'inversify';
 import { TYPES } from '../constants/types';
 import { CustomerService } from '../services/CustomerService';
-import { Customer } from '../models/Customer';
+import { Customer, toPublicUrl } from '../models/Customer';
 import { assertBodyHasSeveralFields } from './utils/assertions';
 import { CustomerUpdateRequest } from '../requests/CustomerUpdateRequest';
 import { AuthRequest } from '../configurations/server/middleware/security/utils';
@@ -32,7 +32,10 @@ export class CustomerController implements interfaces.Controller {
 
   @httpGet('/:id')
   async getCustomer(@requestParam('id') id: string): Promise<Customer> {
-    return this.customerService.getCustomer(id);
+    // TODO create response dto
+    const customer = await this.customerService.getCustomer(id);
+    customer.photo = toPublicUrl(customer.photo);
+    return customer;
   }
 
   @httpPost('/')
