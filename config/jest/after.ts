@@ -7,7 +7,8 @@ import { CustomerRepository } from '../../src/repositories/CustomerRepository';
 import { Config } from '../../src/configurations/Config';
 
 export const userTokenMocked = [`${Config.jwt.cookieName}=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJpZCI6IjU1MTEzN2MyZjllMWZhYzgwOGE1ZjU3MiJ9.YGP97EuZdlfOph-ft1-EnjFutbgs5P0dqlFY6H4sfCY`];
-export const adminTokenMocked = [`${Config.jwt.cookieName}=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJyb2xlcyI6WyJhZG1pbiJdfQ.Mdvmj9rG2U1bDuN65rpF2bwNSf8CGhFy5I_3uSMUy3E`];
+export const adminTokenMocked = [`${Config.jwt.cookieName}=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJyb2xlcyI6WyJhZG1pbiJdLCJpZCI6IjU1MTEzN2MyZjllMWZhYzgwOGE1ZjU3MiJ9.f_SQvGjDhxnim92UuIdQWhvG_Rkaytris7PF5L-gFHg`];
+export const userIncompleteTokenMocked = [`${Config.jwt.cookieName}=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJyb2xlcyI6WyJhZG1pbiJdfQ.Mdvmj9rG2U1bDuN65rpF2bwNSf8CGhFy5I_3uSMUy3E`];
 
 export const getTestServer = async (container: Container) => configureServer(container).build();
 

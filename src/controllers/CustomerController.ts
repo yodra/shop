@@ -18,6 +18,7 @@ import { CustomerUpdateRequest } from '../requests/CustomerUpdateRequest';
 import { AuthRequest } from '../configurations/server/middleware/security/utils';
 import { CustomerResponse, toResponse, toResponseList } from '../responses/CustomerResponse';
 import * as fs from 'fs';
+import { ClientException } from '../exceptions/ClientException';
 
 
 @controller('/customer', TYPES.Authentication)
@@ -42,6 +43,9 @@ export class CustomerController implements interfaces.Controller {
   async create(@request() request: AuthRequest, @requestBody() body: any) {
     assertBodyHasSeveralFields(body, ['id', 'name', 'lastname']);
     const idUserAuth = request.user.id;
+    if (!idUserAuth) {
+      throw new ClientException('Invalid permissions', 403);
+    }
 
     await this.customerService.create({
       id: body.id,

@@ -6,5 +6,5 @@ export interface Customer extends Base {
   lastname: string;
   photo?: string;
   createdBy: ModelId;
-  updatedBy?: ModelId;
+  lastUpdatedBy?: ModelId;
 }

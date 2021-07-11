@@ -1,4 +1,9 @@
-import { getTestServer, initializeTestContainer, userTokenMocked } from '../../../config/jest/after';
+import {
+  getTestServer,
+  initializeTestContainer,
+  userIncompleteTokenMocked,
+  userTokenMocked
+} from '../../../config/jest/after';
 import request from 'supertest';
 import { TYPES } from '../../constants/types';
 import { CustomerService } from '../../services/CustomerService';
@@ -118,6 +123,14 @@ describe('CustomerController', () => {
     it('should not create a new customer for anonymous user', async () => {
       await request(server)
         .post('/customer')
+        .send({ ...baseCustomer })
+        .expect(403);
+    });
+
+    it('should not create a new customer for user without id', async () => {
+      await request(server)
+        .post('/customer')
+        .set('Cookie', userIncompleteTokenMocked)
         .send({ ...baseCustomer })
         .expect(403);
     });

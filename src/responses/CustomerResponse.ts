@@ -7,7 +7,7 @@ export interface CustomerResponse {
   lastname: string;
   photo?: string;
   createdBy: string;
-  updatedBy?: string;
+  lastUpdatedBy?: string;
 }
 
 const toPublicUrl = (photo?: string): string | undefined =>
@@ -19,7 +19,7 @@ export const toResponse = (customer: Customer): CustomerResponse => ({
   lastname: customer.lastname,
   photo: toPublicUrl(customer.photo),
   createdBy: customer.createdBy,
-  updatedBy: customer.updatedBy
+  lastUpdatedBy: customer.lastUpdatedBy
 });
 
 export const toResponseList = (customers: Customer[]): CustomerResponse[] =>
