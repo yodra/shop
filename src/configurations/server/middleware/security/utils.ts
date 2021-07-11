@@ -30,6 +30,10 @@ export const extractAuthUser = (request: Request) => {
   }
 
   const payload = getJwtPayload(token);
+  if (!payload.id) {
+    throw new ClientException('Invalid permissions', 403);
+  }
+
   return {
     id: payload.id,
     isAdmin: payload.roles?.includes('admin') || false

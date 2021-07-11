@@ -21,7 +21,7 @@ export const assertRequestHasFiles = (files: any) => {
   }
 };
 
-export const assertIsFormat = (photo: any) => {
+export const assertIsPhoto = (photo: any) => {
   if (photo.mimetype !== 'image/png' && photo.mimetype !== 'image/jpg') {
     throw new ControllerClientException('The type of photo is invalid');
   }

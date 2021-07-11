@@ -13,13 +13,11 @@ import {
 import { inject } from 'inversify';
 import { TYPES } from '../constants/types';
 import { CustomerService } from '../services/CustomerService';
-import { assertBodyHasSeveralFields, assertIsFormat, assertRequestHasFiles } from './utils/assertions';
+import { assertBodyHasSeveralFields, assertIsPhoto, assertRequestHasFiles } from './utils/assertions';
 import { CustomerUpdateRequest } from '../requests/CustomerUpdateRequest';
 import { AuthRequest } from '../configurations/server/middleware/security/utils';
 import { CustomerResponse, toResponse, toResponseList } from '../responses/CustomerResponse';
 import * as fs from 'fs';
-import { ClientException } from '../exceptions/ClientException';
-
 
 @controller('/customer', TYPES.Authentication)
 export class CustomerController implements interfaces.Controller {
@@ -42,10 +40,8 @@ export class CustomerController implements interfaces.Controller {
   @httpPost('/')
   async create(@request() request: AuthRequest, @requestBody() body: any) {
     assertBodyHasSeveralFields(body, ['id', 'name', 'lastname']);
+    // TODO: Maybe this is responsability of the @auth middleware
     const idUserAuth = request.user.id;
-    if (!idUserAuth) {
-      throw new ClientException('Invalid permissions', 403);
-    }
 
     await this.customerService.create({
       id: body.id,
@@ -71,7 +67,7 @@ export class CustomerController implements interfaces.Controller {
   @httpPut('/photo/:id')
   async addPhoto(@requestParam('id') id: string, @request() request: any) {
     assertRequestHasFiles(request.files);
-    assertIsFormat(request.files.photo);
+    assertIsPhoto(request.files.photo);
     const photo = fs.createReadStream(request.files.photo.tempFilePath);
     await this.customerService.uploadPhoto(id, photo);
   }
