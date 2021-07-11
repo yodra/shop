@@ -7,7 +7,7 @@ interface Configuration {
     port: number;
     name: string;
     poolSize: number;
-  }
+  };
   jwt: {
     cookieName: string;
     secret: string;
@@ -17,7 +17,11 @@ interface Configuration {
     secretAccessKey: string;
     s3Bucket: string;
     region: string;
-  }
+  };
+  logs: {
+    enabled: boolean;
+    config: 'tiny' | 'short' | 'common' | 'combined';
+  };
 }
 
 dotenv.config();
@@ -39,5 +43,9 @@ export const Config: Configuration = {
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || '',
     s3Bucket: process.env.AWS_S3_BUCKET || '',
     region: process.env.AWS_REGION || 'eu-west-1'
+  },
+  logs: {
+    enabled: process.env.NODE_ENV !== 'test',
+    config: process.env.LOGS_CONFIG as any || 'tiny'
   }
 };

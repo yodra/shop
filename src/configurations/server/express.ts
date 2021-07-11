@@ -8,6 +8,8 @@ import '../../controllers/CustomerController';
 import { ClientException } from '../../exceptions/ClientException';
 import cookieParser from 'cookie-parser';
 import fileUpload from 'express-fileupload';
+import helmet from 'helmet';
+import morgan from 'morgan';
 
 const errorHandler = (error: Error, _, response, next) => {
   if (error) {
@@ -29,10 +31,13 @@ export const configureServer = (container: Container) => {
       extended: true
     }));
     app.use(bodyParser.json());
+    app.use(helmet());
+    if (Config.logs.enabled) {
+      app.use(morgan('tiny'));
+    }
     app.use(cookieParser());
     app.use(fileUpload({
       limits: { fileSize: 10 * 1024 * 1024 },
-
       useTempFiles: true,
       tempFileDir: '/tmp/'
     }));
