@@ -140,22 +140,13 @@ describe('UserController', () => {
         .expect(400);
     });
 
-    // TODO this change in other endpoint
-    it('should return an exception when the user isAdmin is not provided', async () => {
-      await request(server)
-        .put('/user/551137c2f9e1fac808a5f572')
-        .set('Cookie', adminTokenMocked)
-        .send({ ...baseUser, isAdmin: undefined })
-        .expect(400);
-    });
-
     it('should call to updateUser on UserService', async () => {
       await request(server)
         .put('/user/551137c2f9e1fac808a5f572')
         .set('Cookie', adminTokenMocked)
-        .send(baseUser);
+        .send({ name: 'Lucia' });
 
-      expect(userServiceMock.update).toBeCalledWith('551137c2f9e1fac808a5f572', baseUser);
+      expect(userServiceMock.update).toBeCalledWith('551137c2f9e1fac808a5f572', { name: 'Lucia' });
     });
 
     it('should not to update a user for anonymous user', async () => {

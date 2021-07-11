@@ -40,10 +40,7 @@ export class UserService {
       throw new ServiceException('The user not exists');
     }
 
-    await this.userRepository.update(id, {
-      name: request.name,
-      isAdmin: request.isAdmin
-    });
+    await this.userRepository.update(id, { name: request.name });
   }
 
   async remove(id: string) {

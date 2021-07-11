@@ -12,7 +12,6 @@ import { inject } from 'inversify';
 import { UserService } from '../services/UserService';
 import { TYPES } from '../constants/types';
 import { assertBodyHasSeveralFields, assertObjectId } from './utils/assertions';
-import { UserUpdateRequest } from '../requests/UserUpdateRequest';
 import { toResponseList, UserResponse } from '../responses/UserResponse';
 
 @controller('/user', TYPES.OnlyAdmin)
@@ -40,8 +39,8 @@ export class UserController implements interfaces.Controller {
   @httpPut('/:id')
   async update(@requestParam('id') id: string, @requestBody() body: any) {
     assertObjectId(id);
-    assertBodyHasSeveralFields(body, ['name', 'isAdmin']);
-    await this.userService.update(id, UserUpdateRequest.build(body));
+    assertBodyHasSeveralFields(body, ['name']);
+    await this.userService.update(id, { name: body.name });
   }
 
   @httpDelete('/:id')
