@@ -26,23 +26,23 @@ export class CustomerController implements interfaces.Controller {
   }
 
   @httpGet('/')
-  async getAllCustomers(): Promise<CustomerResponse[]> {
-    const allCustomers = await this.customerService.getAllCustomers();
+  async getAll(): Promise<CustomerResponse[]> {
+    const allCustomers = await this.customerService.getAll();
     return toResponseList(allCustomers);
   }
 
   @httpGet('/:id')
-  async getCustomer(@requestParam('id') id: string): Promise<CustomerResponse> {
-    const customer = await this.customerService.getCustomer(id);
+  async get(@requestParam('id') id: string): Promise<CustomerResponse> {
+    const customer = await this.customerService.get(id);
     return toResponse(customer);
   }
 
   @httpPost('/')
-  async createCustomer(@request() request: AuthRequest, @requestBody() body: any) {
+  async create(@request() request: AuthRequest, @requestBody() body: any) {
     assertBodyHasSeveralFields(body, ['id', 'name', 'lastname']);
     const idUserAuth = request.user.id;
 
-    await this.customerService.createCustomer({
+    await this.customerService.create({
       id: body.id,
       name: body.name,
       lastname: body.lastname,
@@ -51,16 +51,16 @@ export class CustomerController implements interfaces.Controller {
   }
 
   @httpPut('/:id')
-  async updateCustomer(@request() request: AuthRequest, @requestParam('id') id: string, @requestBody() body: any) {
+  async update(@request() request: AuthRequest, @requestParam('id') id: string, @requestBody() body: any) {
     assertBodyHasSeveralFields(body, ['name', 'lastname']);
     const idUserAuth = request.user.id;
 
-    await this.customerService.updateCustomer(id, CustomerUpdateRequest.build(body, idUserAuth));
+    await this.customerService.update(id, CustomerUpdateRequest.build(body, idUserAuth));
   }
 
   @httpDelete('/:id')
-  async removeCustomer(@requestParam('id') id: string) {
-    await this.customerService.removeCustomer(id);
+  async remove(@requestParam('id') id: string) {
+    await this.customerService.remove(id);
   }
 
   @httpPut('/photo/:id')

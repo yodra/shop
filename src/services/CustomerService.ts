@@ -15,11 +15,11 @@ export class CustomerService {
     @inject(TYPES.S3Service) private s3Service: S3Service) {
   }
 
-  async getAllCustomers(): Promise<Customer[]> {
+  async getAll(): Promise<Customer[]> {
     return this.customerRepository.findAll();
   }
 
-  async getCustomer(id: string): Promise<Customer> {
+  async get(id: string): Promise<Customer> {
     const customer = await this.customerRepository.findOne({ id });
 
     if (!customer) {
@@ -29,7 +29,7 @@ export class CustomerService {
     return customer;
   }
 
-  async createCustomer(request: CustomerCreateRequest) {
+  async create(request: CustomerCreateRequest) {
     const existingCustomer = await this.customerRepository.findOne({
       id: request.id
     });
@@ -41,7 +41,7 @@ export class CustomerService {
     await this.customerRepository.insert({ ...request });
   }
 
-  async updateCustomer(id: string, request: CustomerUpdateRequest) {
+  async update(id: string, request: CustomerUpdateRequest) {
     const existingCustomer = await this.customerRepository.findOne({ id });
 
     if (!existingCustomer) {
@@ -51,7 +51,7 @@ export class CustomerService {
     await this.customerRepository.update(existingCustomer._id, { ...request });
   }
 
-  async removeCustomer(id: string) {
+  async remove(id: string) {
     const customer = await this.customerRepository.findOne({ id });
     if (customer) {
       await this.customerRepository.deleteOne(customer._id);

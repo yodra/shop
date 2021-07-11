@@ -5,11 +5,11 @@ import { CustomerService } from '../../services/CustomerService';
 
 let server;
 const customerServiceMock: Partial<CustomerService> = {
-  getAllCustomers: jest.fn(),
-  createCustomer: jest.fn(),
-  removeCustomer: jest.fn(),
-  updateCustomer: jest.fn(),
-  getCustomer: jest.fn()
+  getAll: jest.fn(),
+  create: jest.fn(),
+  remove: jest.fn(),
+  update: jest.fn(),
+  get: jest.fn()
 };
 
 describe('CustomerController', () => {
@@ -20,10 +20,10 @@ describe('CustomerController', () => {
     server = await getTestServer(container);
   });
 
-  describe('getCustomers', () => {
+  describe('get', () => {
     const date = new Date();
     it('should get a list of customers', async () => {
-      customerServiceMock.getAllCustomers = jest.fn().mockReturnValue([{
+      customerServiceMock.getAll = jest.fn().mockReturnValue([{
         _id: '60e89506e539964350155a54',
         id: '11111111H',
         name: 'aName',
@@ -53,9 +53,9 @@ describe('CustomerController', () => {
     });
   });
 
-  describe('getCustomer', () => {
+  describe('get', () => {
     it('should get a customer by id', async () => {
-      customerServiceMock.getCustomer = jest.fn().mockReturnValue({});
+      customerServiceMock.get = jest.fn().mockReturnValue({});
 
       await request(server)
         .get('/customer/11111111H')
@@ -74,11 +74,11 @@ describe('CustomerController', () => {
         .get('/customer/11111111H')
         .set('Cookie', userTokenMocked);
 
-      expect(customerServiceMock.getCustomer).toBeCalledWith('11111111H');
+      expect(customerServiceMock.get).toBeCalledWith('11111111H');
     });
   });
 
-  describe('createCustomer', () => {
+  describe('create', () => {
     const baseCustomer = { id: 'businessId', name: 'Ana', lastname: 'Morales' };
 
     it('should create a new customer', async () => {
@@ -126,7 +126,7 @@ describe('CustomerController', () => {
         .set('Cookie', userTokenMocked)
         .send({ ...baseCustomer });
 
-      expect(customerServiceMock.createCustomer).toBeCalledWith({
+      expect(customerServiceMock.create).toBeCalledWith({
         id: 'businessId',
         name: 'Ana',
         lastname: 'Morales',
@@ -135,7 +135,7 @@ describe('CustomerController', () => {
     });
   });
 
-  describe('removeCustomer', () => {
+  describe('remove', () => {
     it('should remove a customer by id', async () => {
       await request(server)
         .delete('/customer/11111111H')
@@ -150,7 +150,7 @@ describe('CustomerController', () => {
     });
   });
 
-  describe('updateCustomer', () => {
+  describe('update', () => {
     const baseCustomer = { name: 'Ana', lastname: 'Morales' };
 
     it('should update a customer by id', async () => {
@@ -183,7 +183,7 @@ describe('CustomerController', () => {
         .set('Cookie', userTokenMocked)
         .send({ ...baseCustomer, id: '22222222P' });
 
-      expect(customerServiceMock.updateCustomer).toBeCalledWith('11111111H', {
+      expect(customerServiceMock.update).toBeCalledWith('11111111H', {
         ...baseCustomer,
         lastUpdatedBy: '551137c2f9e1fac808a5f572'
       });
@@ -195,7 +195,7 @@ describe('CustomerController', () => {
         .set('Cookie', userTokenMocked)
         .send(baseCustomer);
 
-      expect(customerServiceMock.updateCustomer).toBeCalledWith('11111111H', {
+      expect(customerServiceMock.update).toBeCalledWith('11111111H', {
         ...baseCustomer,
         lastUpdatedBy: '551137c2f9e1fac808a5f572'
       });
