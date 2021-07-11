@@ -1,6 +1,7 @@
-import { CustomerCreateRequest, CustomerService } from '../CustomerService';
+import { CustomerService } from '../CustomerService';
 import { CustomerRepository } from '../../repositories/CustomerRepository';
 import { CustomerUpdateRequest } from '../../requests/CustomerUpdateRequest';
+import { CustomerCreateRequest } from '../../requests/CustomerCreateRequest';
 
 const customerRepositoryMock: Partial<CustomerRepository> = {
   findAll: () => Promise.resolve([]),

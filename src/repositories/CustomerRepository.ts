@@ -20,5 +20,4 @@ export class CustomerRepository extends BaseRepository<Customer> {
   async update(id: string, customer: Partial<Customer>) {
     await this.updateOne(id, customer);
   }
-
 }

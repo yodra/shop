@@ -4,16 +4,9 @@ import { TYPES } from '../constants/types';
 import { CustomerRepository } from '../repositories/CustomerRepository';
 import { ServiceException } from './exceptions/ServiceException';
 import { CustomerUpdateRequest } from '../requests/CustomerUpdateRequest';
-import { ModelId } from '../models/Base';
 import { ReadStream } from 'fs';
 import { S3Service } from './S3Service';
-
-export interface CustomerCreateRequest {
-  id: string;
-  name: string;
-  lastname: string;
-  createdBy: ModelId;
-}
+import { CustomerCreateRequest } from '../requests/CustomerCreateRequest';
 
 @injectable()
 export class CustomerService {

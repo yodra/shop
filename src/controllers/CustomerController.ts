@@ -13,11 +13,11 @@ import {
 import { inject } from 'inversify';
 import { TYPES } from '../constants/types';
 import { CustomerService } from '../services/CustomerService';
-import { Customer, toPublicUrl } from '../models/Customer';
 import { assertBodyHasSeveralFields } from './utils/assertions';
 import { CustomerUpdateRequest } from '../requests/CustomerUpdateRequest';
 import { AuthRequest } from '../configurations/server/middleware/security/utils';
 import fs from 'fs';
+import { CustomerResponse, toResponse, toResponseList } from '../responses/CustomerResponse';
 
 @controller('/customer', TYPES.Authentication)
 export class CustomerController implements interfaces.Controller {
@@ -26,16 +26,15 @@ export class CustomerController implements interfaces.Controller {
   }
 
   @httpGet('/')
-  async getAllCustomers(): Promise<Customer[]> {
-    return this.customerService.getAllCustomers();
+  async getAllCustomers(): Promise<CustomerResponse[]> {
+    const allCustomers = await this.customerService.getAllCustomers();
+    return toResponseList(allCustomers);
   }
 
   @httpGet('/:id')
-  async getCustomer(@requestParam('id') id: string): Promise<Customer> {
-    // TODO create response dto
+  async getCustomer(@requestParam('id') id: string): Promise<CustomerResponse> {
     const customer = await this.customerService.getCustomer(id);
-    customer.photo = toPublicUrl(customer.photo);
-    return customer;
+    return toResponse(customer);
   }
 
   @httpPost('/')
@@ -70,6 +69,5 @@ export class CustomerController implements interfaces.Controller {
     // TODO assertIsPhoto() png, jpeg
     const photo = fs.createReadStream(request.files.file.tempFilePath);
     await this.customerService.uploadPhoto(id, photo);
-    console.log(id);
   }
 }
