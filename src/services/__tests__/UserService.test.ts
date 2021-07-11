@@ -6,7 +6,8 @@ const userRepositoryMock: Partial<UserRepository> = {
   insert: jest.fn(),
   update: jest.fn(),
   findById: jest.fn(),
-  delete: jest.fn()
+  delete: jest.fn(),
+  updateOne: jest.fn()
 };
 
 describe('UserService', () => {
@@ -63,6 +64,14 @@ describe('UserService', () => {
       await userService.remove('1');
 
       expect(userRepositoryMock.delete).toBeCalled();
+    });
+  });
+
+  describe('changeAdminStatus', () => {
+    it('should call to update on UserRepository with id and isAdmin', async function () {
+      await userService.changeAdminStatus('551137c2f9e1fac808a5f572', { isAdmin: true });
+
+      expect(userRepositoryMock.updateOne).toBeCalledWith('551137c2f9e1fac808a5f572', { isAdmin: true });
     });
   });
 });

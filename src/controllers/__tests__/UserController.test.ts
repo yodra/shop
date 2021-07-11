@@ -8,7 +8,8 @@ const userServiceMock = {
   getUsers: jest.fn(),
   create: jest.fn(),
   update: jest.fn(),
-  remove: jest.fn()
+  remove: jest.fn(),
+  changeAdminStatus: jest.fn()
 };
 
 describe('UserController', () => {
@@ -199,9 +200,62 @@ describe('UserController', () => {
     });
   });
 
-  describe('changeIsAdmin', () => {
-    it.todo('should to get status response 204');
+  describe('changeAdminStatus', () => {
+    it('should to change the admin status of a user', async () => {
+      await request(server)
+        .put('/user/admin/551137c2f9e1fac808a5f572')
+        .set('Cookie', adminTokenMocked)
+        .send({ isAdmin: true })
+        .expect(204);
+    });
 
-    it.todo('should return an exception when the id is not a ObjectId');
+    it('should return an exception when the id is not a ObjectId', async () => {
+      await request(server)
+        .put('/user/admin/1')
+        .set('Cookie', adminTokenMocked)
+        .send({ isAdmin: true })
+        .expect(400);
+    });
+
+    it('should return an exception when the user isAdmin is not provided', async () => {
+      await request(server)
+        .put('/user/admin/551137c2f9e1fac808a5f572')
+        .set('Cookie', adminTokenMocked)
+        .send({})
+        .expect(400);
+    });
+
+    it('should return an exception when the user isAdmin is not provided', async () => {
+      await request(server)
+        .put('/user/admin/551137c2f9e1fac808a5f572')
+        .set('Cookie', adminTokenMocked)
+        .send({})
+        .expect(400);
+    });
+
+    it('should not to change the admin status of a user for anonymous user', async () => {
+      await request(server)
+        .put('/user/admin/551137c2f9e1fac808a5f572')
+        .send(baseUser)
+        .expect(403);
+    });
+
+    it('should not to to change the admin status of a user for a no admin user', async () => {
+      await request(server)
+        .put('/user/admin/551137c2f9e1fac808a5f572')
+        .set('Cookie', userTokenMocked)
+        .send(baseUser)
+        .expect(403);
+    });
+
+    it('should call to changeAdminStatus on UserService', async () => {
+      await request(server)
+        .put('/user/551137c2f9e1fac808a5f572')
+        .set('Cookie', adminTokenMocked)
+        .send({ isAdmin: true });
+
+      expect(userServiceMock.changeAdminStatus).toBeCalledWith('551137c2f9e1fac808a5f572', { isAdmin: true });
+    });
+
   });
 });

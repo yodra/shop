@@ -40,14 +40,19 @@ export class UserController implements interfaces.Controller {
   async update(@requestParam('id') id: string, @requestBody() body: any) {
     assertObjectId(id);
     assertBodyHasSeveralFields(body, ['name', 'isAdmin']);
-
-    const request = UserUpdateRequest.build(body);
-    await this.userService.update(id, request);
+    await this.userService.update(id, UserUpdateRequest.build(body));
   }
 
   @httpDelete('/:id')
   async remove(@requestParam('id') id: string) {
     assertObjectId(id);
     await this.userService.remove(id);
+  }
+
+  @httpPut('/admin/:id')
+  async changeAdminStatus(@requestParam('id') id: string, @requestBody() body: any) {
+    assertObjectId(id);
+    assertBodyHasSeveralFields(body, ['isAdmin']);
+    await this.userService.changeAdminStatus(id, { isAdmin: body.isAdmin });
   }
 }

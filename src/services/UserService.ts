@@ -4,11 +4,8 @@ import { UserRepository } from '../repositories/UserRepository';
 import { User } from '../models/User';
 import { ServiceException } from './exceptions/ServiceException';
 import { UserUpdateRequest } from '../requests/UserUpdateRequest';
-
-interface UserCreateRequest {
-  name: string;
-  isAdmin: boolean;
-}
+import { UserCreateRequest } from '../requests/UserCreateRequest';
+import { ChangeAdminStatusRequest } from '../requests/ChangeAdminStatusRequest';
 
 @injectable()
 export class UserService {
@@ -51,5 +48,9 @@ export class UserService {
 
   async remove(id: string) {
     await this.userRepository.delete(id);
+  }
+
+  async changeAdminStatus(id: string, request: ChangeAdminStatusRequest) {
+    await this.userRepository.updateOne(id, { ...request });
   }
 }
