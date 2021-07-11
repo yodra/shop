@@ -11,9 +11,9 @@ import {
 import { inject } from 'inversify';
 import { UserService } from '../services/UserService';
 import { TYPES } from '../constants/types';
-import { User } from '../models/User';
 import { assertBodyHasSeveralFields, assertObjectId } from './utils/assertions';
 import { UserUpdateRequest } from '../requests/UserUpdateRequest';
+import { toResponseList, UserResponse } from '../responses/UserResponse';
 
 @controller('/user', TYPES.OnlyAdmin)
 export class UserController implements interfaces.Controller {
@@ -22,8 +22,9 @@ export class UserController implements interfaces.Controller {
   }
 
   @httpGet('/')
-  async getAll(): Promise<User[]> {
-    return this.userService.getUsers();
+  async getAll(): Promise<UserResponse[]> {
+    const users = await this.userService.getUsers();
+    return toResponseList(users);
   }
 
   @httpPost('/')

@@ -24,6 +24,7 @@ describe('CustomerService', () => {
         lastname: 'aLastname',
         photo: 'aUrlImage',
         createdAt: date,
+        lastUpdatedAt: date,
         createdBy: '551137c2f9e1fac808a5f572'
       }, {
         _id: 'mongoId2',
@@ -31,6 +32,7 @@ describe('CustomerService', () => {
         name: 'aName',
         lastname: 'aLastname',
         createdAt: date,
+        lastUpdatedAt: date,
         createdBy: '551137c2f9e1fac808a5f572'
       }]);
 
@@ -41,6 +43,7 @@ describe('CustomerService', () => {
         lastname: 'aLastname',
         photo: 'aUrlImage',
         createdAt: date,
+        lastUpdatedAt: date,
         createdBy: '551137c2f9e1fac808a5f572'
       }, {
         _id: 'mongoId2',
@@ -48,6 +51,7 @@ describe('CustomerService', () => {
         name: 'aName',
         lastname: 'aLastname',
         createdAt: date,
+        lastUpdatedAt: date,
         createdBy: '551137c2f9e1fac808a5f572'
       }]);
     });
@@ -64,6 +68,7 @@ describe('CustomerService', () => {
           lastname: 'aLastname',
           photo: 'aUrlImage',
           createdAt: date,
+          lastUpdatedAt: date,
           createdBy: '551137c2f9e1fac808a5f572'
         });
       };
@@ -75,6 +80,7 @@ describe('CustomerService', () => {
         lastname: 'aLastname',
         photo: 'aUrlImage',
         createdAt: date,
+        lastUpdatedAt: date,
         createdBy: '551137c2f9e1fac808a5f572'
       });
     });

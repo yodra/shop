@@ -30,6 +30,7 @@ describe('CustomerController', () => {
         lastname: 'aLastname',
         photo: 'aPhotoKey',
         createdAt: date,
+        lastUpdatedAt: date,
         createdBy: '551137c2f9e1fac808a5f572'
       }]);
 

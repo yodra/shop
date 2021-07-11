@@ -24,12 +24,23 @@ describe('UserController', () => {
 
   describe('getAll', () => {
     it('should to get a list of user', async () => {
-      userServiceMock.getUsers.mockReturnValue([]);
+      userServiceMock.getUsers.mockReturnValue([{
+        _id: '551137c2f9e1fac808a5f572',
+        name: 'Lucia',
+        isAdmin: false,
+        createAt: new Date(),
+        lastUpdatedAt: new Date()
+      }]);
 
       await request(server)
         .get('/user')
         .set('Cookie', adminTokenMocked)
-        .expect(200);
+        .expect(200)
+        .expect([{
+          id: '551137c2f9e1fac808a5f572',
+          name: 'Lucia',
+          isAdmin: false
+        }]);
     });
 
     it('should not to get a list of user for anonymous user', async () => {
