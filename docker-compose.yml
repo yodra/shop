@@ -6,6 +6,8 @@ services:
       - 3000:3000
     environment:
       - PORT=3000
+      - DB_HOST=database
+    command: bash -c 'while !</dev/tcp/database/27017; do sleep 1; done; node app.js'
     depends_on:
       - database
 
