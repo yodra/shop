@@ -27,6 +27,10 @@ test: ## Run the test
 	@echo "🧪 Running test"
 	@npm run test
 
+test-watch: ## Run the test watch mode
+	@echo "🧪 Running test watch mode"
+	@npm run test-watch
+
 clean: ## Remove the `dist` folder
 	@echo "🧹 Cleaning"
 	@rm -rf dist

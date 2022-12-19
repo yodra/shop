@@ -40,7 +40,7 @@ export class CustomerController implements interfaces.Controller {
   @httpPost('/')
   async create(@request() request: AuthRequest, @requestBody() body: any) {
     assertBodyHasSeveralFields(body, ['id', 'name', 'lastname']);
-    // TODO: Maybe this is responsability of the @auth middleware
+    // TODO: Maybe this is responsibility of the @auth middleware
     const idUserAuth = request.user.id;
 
     await this.customerService.create({

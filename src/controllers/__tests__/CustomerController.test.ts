@@ -48,7 +48,7 @@ describe('CustomerController', () => {
           id: '11111111H',
           name: 'aName',
           lastname: 'aLastname',
-          photo: 'shop-tam-s3.s3.eu-west-1.amazonaws.com/aPhotoKey',
+          photo: 'shop-test-s3.s3.eu-west-1.amazonaws.com/aPhotoKey',
           createdBy: '551137c2f9e1fac808a5f572'
         }]);
     });
