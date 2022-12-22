@@ -1,7 +1,7 @@
 import { UserRepository } from '../UserRepository';
 import { initializeMongoDb } from '../../configurations/mongodb/MongoDBConnection';
 
-describe.only('UserRepository', () => {
+describe('UserRepository', () => {
 
   beforeAll(async () => {
     await initializeMongoDb();
